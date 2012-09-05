@@ -13,7 +13,7 @@ describe('Given a new server has started', function () {
     var browser;
 
     beforeEach(function (done) {
-      browser = new Browser(server.uri);
+      browser = new Browser(server.uri());
       browser.navigateHome(done);
     });
 
