@@ -1,0 +1,2 @@
+--require test/common ./test/unit ./test/integration
+./test/endtoend

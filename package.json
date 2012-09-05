@@ -16,6 +16,10 @@
   "author": "Graeme Foster <graemef@gmail.com>",
   "private": true,
   "devDependencies": {
-    "mocha": "~1.4.2"
+    "mocha": "~1.4.2",
+    "sinon": "~1.4.2",
+    "chai": "~1.2.0",
+    "patience": "~0.2.0",
+    "sinon-chai": "~2.1.2"
   }
 }
