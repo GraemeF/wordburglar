@@ -10,7 +10,7 @@ describe('Given a new server has started', function () {
     server.start(done);
   });
 
-  describe('when I visit the home page', function (done) {
+  describe('when I visit the home page', function () {
     var browser;
 
     beforeEach(function (done) {
