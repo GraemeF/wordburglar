@@ -2,11 +2,10 @@ var serverFactory = require('../../lib/serverFactory');
 var Browser = require('./helpers/Browser');
 
 describe('Given a new server has started', function () {
-  var test;
   var server;
 
   beforeEach(function (done) {
-    server = serverFactory();
+    server = serverFactory({port: 0});
     server.start(done);
   });
 
@@ -19,7 +18,7 @@ describe('Given a new server has started', function () {
     });
 
     it('should ask me to log in', function () {
-      //browser.hasLogInLink().should.equal(true);
+      browser.hasLogInButton().should.be.truthy;
     });
   });
 });
