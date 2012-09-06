@@ -13,8 +13,11 @@ Browser.prototype.hasLogInButton = function () {
   return this.zombie.document.getElementById('loginButton');
 };
 
-Browser.prototype.showsGrid = function () {
-  return this.zombie.document.getElementById('grid');
+Browser.prototype.getLetter = function (x, y) {
+  return this.zombie.text('table#grid' +
+                            '> tbody' +
+                            '> tr:nth-child(' + y + 1 + ')' +
+                            '> td:nth-child(' + x + 1 + ')');
 };
 
 module.exports = Browser;

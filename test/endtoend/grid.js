@@ -17,8 +17,10 @@ describe('Given a new server has started', function () {
       browser.navigateHome(done);
     });
 
-    it('should show a grid of letters', function () {
-      browser.showsGrid().should.be.truthy;
+    describe('the grid', function () {
+      it('should contain letters', function () {
+        browser.getLetter(0, 0).should.equal('A');
+      });
     });
   });
 });
