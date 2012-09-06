@@ -4,7 +4,9 @@
   "description": "A game of many words.",
   "main": "index.js",
   "scripts": {
-    "test": "node_modules/mocha/bin/mocha"
+    "test": "node node_modules/mocha/bin/mocha",
+    "lint": "node ./node_modules/jshint/bin/hint ./lib ./test/unit ./test/integration ./test/endtoend ./test/endtoend/helpers --show-non-errors",
+    "cover": "node ./node_modules/cover/bin/cover run node_modules/mocha/bin/mocha && node ./node_modules/cover/bin/cover report html"
   },
   "repository": {
     "type": "git",
@@ -21,6 +23,7 @@
     "chai": "~1.2.0",
     "patience": "~0.2.0",
     "sinon-chai": "~2.1.2",
-    "zombie": "~1.4.1"
+    "zombie": "~1.4.1",
+    "jshint": "~0.9.0"
   }
 }

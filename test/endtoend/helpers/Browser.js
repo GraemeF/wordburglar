@@ -13,4 +13,8 @@ Browser.prototype.hasLogInButton = function () {
   return this.zombie.document.getElementById('loginButton');
 };
 
+Browser.prototype.showsGrid = function () {
+  return this.zombie.document.getElementById('grid');
+};
+
 module.exports = Browser;

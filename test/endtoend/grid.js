@@ -17,8 +17,8 @@ describe('Given a new server has started', function () {
       browser.navigateHome(done);
     });
 
-    it('should ask me to log in', function () {
-      browser.hasLogInButton().should.be.truthy;
+    it('should show a grid of letters', function () {
+      browser.showsGrid().should.be.truthy;
     });
   });
 });
