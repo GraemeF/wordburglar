@@ -20,6 +20,7 @@ describe('Given a new server has started', function () {
     describe('the grid', function () {
       it('should contain letters', function () {
         browser.getLetter(0, 0).should.be.within('A', 'Z');
+        browser.getLetter(31, 31).should.be.within('A', 'Z');
       });
     });
 

@@ -16,8 +16,8 @@ Browser.prototype.hasLogInButton = function () {
 Browser.prototype.getLetter = function (x, y) {
   return this.zombie.text('table#grid' +
                             '> tbody' +
-                            '> tr:nth-child(' + y + 1 + ')' +
-                            '> td:nth-child(' + x + 1 + ')');
+                            '> tr:nth-child(' + (y + 1) + ')' +
+                            '> td:nth-child(' + (x + 1) + ')');
 };
 
 Browser.prototype.getTitle = function () {

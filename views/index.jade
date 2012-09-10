@@ -21,9 +21,9 @@ html
       .row
         table#grid
           tbody
-            tr
-              td A
-              td B
-              td C
+            each row in grid.rows
+              tr
+                each letter in row
+                  td #{letter}
 
     script(src="/assets/require.js")
