@@ -22,5 +22,9 @@ describe('Given a new server has started', function () {
         browser.getLetter(0, 0).should.equal('A');
       });
     });
+
+    it('should have be titled Word Burglar', function(){
+      browser.getTitle().should.equal('Word Burglar');
+    })
   });
 });
