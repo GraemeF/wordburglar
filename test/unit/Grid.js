@@ -1,11 +1,14 @@
 var _ = require('underscore');
 var Grid = require('../../lib/Grid');
+var SequentialProducer = require('../../lib/SequentialProducer');
 
-describe('A 20x10 Grid', function () {
+describe('A 5x4 Grid with a sequential letter producer', function () {
   var grid;
 
   beforeEach(function () {
-    grid = new Grid(20, 10);
+    grid = new Grid({width: 5,
+                      height: 4,
+                      letterProducer: new SequentialProducer().next});
   });
 
   describe('when filled', function () {
@@ -17,14 +20,14 @@ describe('A 20x10 Grid', function () {
       grid.getLetter(2, 2).should.be.within('A', 'Z');
     });
 
-    it('should contain 10 rows', function () {
-      grid.rows.should.have.length(10);
+    it('should contain 4 rows', function () {
+      grid.rows.should.have.length(4);
     });
 
     describe('each row', function () {
-      it('should contain 20 letters', function () {
+      it('should contain 5 letters', function () {
         _.each(grid.rows, function (row) {
-          row.should.have.length(20);
+          row.should.have.length(5);
         });
       });
     });
