@@ -20,8 +20,8 @@ describe('Server', function () {
       httpServer.listen.should.have.been.called;
     });
 
-    it('should fill the grid',function(){
+    it('should fill the grid', function () {
       grid.fill.should.have.been.called;
-    })
+    });
   });
 });

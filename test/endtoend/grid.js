@@ -24,8 +24,8 @@ describe('Given a new server has started', function () {
       });
     });
 
-    it('should have be titled Word Burglar', function(){
+    it('should have be titled Word Burglar', function () {
       browser.getTitle().should.equal('Word Burglar');
-    })
+    });
   });
 });
