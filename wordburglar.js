@@ -3,6 +3,6 @@ var config = require('./lib/config');
 
 server = serverFactory(config.get('server'));
 
-server.start(function (error) {
+server.start(function () {
   console.log('Listening on', server.uri());
 });

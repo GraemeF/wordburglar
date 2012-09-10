@@ -14,5 +14,8 @@ results
 node_modules
 npm-debug.log
 
+jam
+public
+
 .coverage_data
 cover_html
