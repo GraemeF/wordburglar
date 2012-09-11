@@ -47,7 +47,7 @@ describe('Given a new server has started with a fixed grid', function () {
         browser.mark({x: 5, y: 0}, {x: 3, y: 0});
       });
 
-      it('should increase my score', function (done) {
+      it.skip('should increase my score', function (done) {
         soon(function () {
           browser.getScore().should.be.greaterThan(0);
         }, this, done);
