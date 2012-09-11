@@ -20,6 +20,10 @@ Browser.prototype.getLetter = function (x, y) {
                             '> td:nth-child(' + (x + 1) + ')');
 };
 
+Browser.prototype.getScore = function () {
+  return parseInt(this.zombie.text('span#score'), 10);
+};
+
 Browser.prototype.getTitle = function () {
   return this.zombie.text("title");
 };
