@@ -28,3 +28,7 @@ html
                     a #{letter}
 
     script(src="/assets/require.js")
+    script
+      require(['main'], function(main) {
+        console.log('in the thing!');
+      });
