@@ -22,6 +22,7 @@
         "afterEach",
         "it",
         "sinon",
-        "expect"
+        "expect",
+        "soon"
     ]
 }

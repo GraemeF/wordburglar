@@ -10,7 +10,11 @@ describe('Given a new server has started with a fixed grid', function () {
       { port: 0,
         grid: { width: 26,
           height: 32,
-          letterProducer: new SequentialProducer().next}
+          letterProducer: new SequentialProducer().next
+        },
+        dictionary: { isWord: function (word) {
+          return word === 'DEF';
+        }}
       });
     server.start(done);
   });
@@ -34,8 +38,20 @@ describe('Given a new server has started with a fixed grid', function () {
       browser.getTitle().should.equal('Word Burglar');
     });
 
-    it('should have a score of 0', function () {
+    it('should show my score is 0', function () {
       browser.getScore().should.equal(0);
+    });
+
+    describe('I mark FED', function () {
+      beforeEach(function () {
+        browser.mark({x: 5, y: 0}, {x: 3, y: 0});
+      });
+
+      it('should increase my score', function (done) {
+        soon(function () {
+          browser.getScore().should.be.greaterThan(0);
+        }, this, done);
+      });
     });
   });
 });
