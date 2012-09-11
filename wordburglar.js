@@ -1,7 +1,10 @@
 var serverFactory = require('./lib/serverFactory');
 var config = require('./lib/config');
 
-var server = serverFactory(config.get('server'));
+var serverConfig = config.get('server');
+console.log('Starting with server config:', serverConfig);
+
+var server = serverFactory(serverConfig);
 
 server.start(function () {
   console.log('Listening on', server.uri());
