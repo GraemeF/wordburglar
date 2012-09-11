@@ -1,5 +1,6 @@
 var serverFactory = require('../../lib/serverFactory');
 var Browser = require('./helpers/Browser');
+var SequentialProducer = require('../../lib/SequentialProducer');
 
 describe('Given a new server has started with a fixed grid', function () {
   var server;
@@ -7,11 +8,9 @@ describe('Given a new server has started with a fixed grid', function () {
   beforeEach(function (done) {
     server = serverFactory(
       { port: 0,
-        grid: { width: 32,
+        grid: { width: 26,
           height: 32,
-          letterProducer: function () {
-            return 'X';
-          }}
+          letterProducer: new SequentialProducer().next}
       });
     server.start(done);
   });
@@ -26,8 +25,8 @@ describe('Given a new server has started with a fixed grid', function () {
 
     describe('the grid', function () {
       it('should contain letters', function () {
-        browser.getLetter(0, 0).should.equal('X');
-        browser.getLetter(31, 31).should.equal('X');
+        browser.getLetter(0, 0).should.equal('A');
+        browser.getLetter(25, 31).should.equal('Z');
       });
     });
 
