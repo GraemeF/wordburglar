@@ -30,15 +30,31 @@ describe('Server', function () {
     });
 
     describe('and a new player joins', function () {
-      var socket;
+      var player;
 
       beforeEach(function () {
-        socket = {};
-        httpServer.emit('new player', socket);
+        player = new events.EventEmitter();
+        httpServer.emit('new player', player);
       });
 
       it('should add a player', function () {
-        players.should.contain(socket);
+        players.should.contain(player);
+      });
+
+      describe('and the player marks a word', function () {
+        var scoreChange;
+
+        beforeEach(function () {
+          player.on('score', function (data) {
+            scoreChange = data;
+          });
+
+          player.emit('mark', {});
+        });
+
+        it('should award a point', function () {
+          scoreChange.should.equal(1);
+        });
       });
     });
   });
