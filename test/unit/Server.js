@@ -6,7 +6,10 @@ describe('Server', function () {
   var grid;
 
   beforeEach(function () {
-    httpServer = {listen: sinon.stub()};
+    httpServer = {
+      listen: sinon.stub().callsArg(0),
+      on: sinon.stub()
+    };
     grid = {fill: sinon.stub()};
     server = new Server(httpServer, grid);
   });
@@ -22,6 +25,10 @@ describe('Server', function () {
 
     it('should fill the grid', function () {
       grid.fill.should.have.been.called;
+    });
+
+    it('should subscribe to new players', function () {
+      httpServer.on.should.have.been.calledWith('new player');
     });
   });
 });
