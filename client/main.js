@@ -1,6 +1,12 @@
-require(['socket.io'], function (io) {
-  var socket = io.connect();
-  socket.on('news', function (data) {
-    socket.emit('my other event', { my: 'data' });
+require(['server', 'jquery'], function (Server, $) {
+  var server = new Server();
+
+  server.connect();
+  server.on('score', function (data) {
+    $('#score').text(data);
+  });
+
+  $('td').click(function () {
+    server.mark();
   });
 });
