@@ -3,11 +3,11 @@ define(['underscore',
         'backbone'
        ], function (_, io, backbone) {
 
-  var Server = function () {
+  var GameEvents = function () {
     _.extend(this, backbone.Events);
   };
 
-  Server.prototype.connect = function () {
+  GameEvents.prototype.connect = function () {
     var self = this;
     this.socket = io.connect();
 
@@ -16,9 +16,9 @@ define(['underscore',
     });
   };
 
-  Server.prototype.mark = function () {
+  GameEvents.prototype.mark = function () {
     this.socket.emit('mark', {});
   };
 
-  return Server;
+  return GameEvents;
 });

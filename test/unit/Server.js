@@ -1,7 +1,7 @@
-var Server = require('../../lib/Server');
+var GameServer = require('../../lib/GameServer');
 var events = require('events');
 
-describe('Server', function () {
+describe('GameServer', function () {
   var server;
   var httpServer;
   var grid;
@@ -13,7 +13,7 @@ describe('Server', function () {
 
     players = [];
     grid = {fill: sinon.stub()};
-    server = new Server(httpServer, grid, players);
+    server = new GameServer(httpServer, grid, players);
   });
 
   describe('when started', function () {

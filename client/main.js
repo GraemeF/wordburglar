@@ -1,5 +1,5 @@
-require(['server', 'jquery'], function (Server, $) {
-  var server = new Server();
+require(['GameEvents', 'jquery'], function (GameEvents, $) {
+  var server = new GameEvents();
 
   server.connect();
   server.on('score', function (data) {
