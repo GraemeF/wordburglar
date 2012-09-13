@@ -19,12 +19,22 @@ describe('Given a new server has started with a fixed grid', function () {
     server.start(done);
   });
 
+  afterEach(function (done) {
+    server.stop(done);
+  });
+
   describe('when I visit the home page', function () {
     var browser;
 
     beforeEach(function (done) {
       browser = new Browser(server.uri());
-      browser.navigateHome(done);
+      browser.navigateHome(function () {
+        browser.waitUntilConnected(done);
+      });
+    });
+
+    afterEach(function (done) {
+      browser.close(done);
     });
 
     describe('the grid', function () {
@@ -40,6 +50,18 @@ describe('Given a new server has started with a fixed grid', function () {
 
     it('should show my score is 0', function () {
       browser.getScore().should.equal(0);
+    });
+
+    describe('I mark ABC', function () {
+      beforeEach(function () {
+        browser.mark({x: 0, y: 0}, {x: 2, y: 0});
+      });
+
+      it('should not increase my score', function (done) {
+        soon(function () {
+          browser.getScore().should.equal(0);
+        }, this, done);
+      });
     });
 
     describe('I mark FED', function () {

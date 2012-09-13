@@ -5,8 +5,22 @@ var Browser = function (uri) {
   this.zombie = new Zombie();
 };
 
+Browser.prototype.close = function (done) {
+  this.zombie.evaluate('window.disconnect()');
+
+  soon(function () {
+    this.getConnectionStatus().should.equal('disconnected');
+  }, this, done);
+};
+
 Browser.prototype.navigateHome = function (callback) {
   this.zombie.visit(this.uri, callback);
+};
+
+Browser.prototype.waitUntilConnected = function (callback) {
+  soon(function () {
+    this.getConnectionStatus().should.equal('connected');
+  }, this, callback);
 };
 
 Browser.prototype.clickLetter = function (letterLoc, callback) {
@@ -26,8 +40,14 @@ Browser.prototype.mark = function (firstLetter, lastLetter, callback) {
 Browser.prototype.getLetter = function (x, y) {
   return this.zombie.text(createLetterSelector(x, y));
 };
+
 Browser.prototype.getScore = function () {
   return parseInt(this.zombie.text('span#score'), 10);
+};
+
+Browser.prototype.getConnectionStatus = function () {
+  var status = this.zombie.text('span#connection');
+  return status;
 };
 
 Browser.prototype.getTitle = function () {
