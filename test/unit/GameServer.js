@@ -6,14 +6,20 @@ describe('GameServer', function () {
   var httpServer;
   var grid;
   var players;
+  var isWord;
 
   beforeEach(function () {
     httpServer = new events.EventEmitter();
     httpServer.listen = sinon.stub().callsArg(0);
 
     players = [];
-    grid = {fill: sinon.stub()};
-    server = new GameServer(httpServer, grid, players);
+    grid = {
+      fill: sinon.stub(),
+      getLetters: sinon.stub()
+    };
+    isWord = sinon.stub().returns(false);
+
+    server = new GameServer(httpServer, grid, isWord, players);
   });
 
   describe('when started', function () {
@@ -41,7 +47,32 @@ describe('GameServer', function () {
         players.should.contain(player);
       });
 
-      describe('and the player marks a word', function () {
+      describe('and the grid has a word at a particular line', function () {
+        const line = 'line of HELLO';
+
+        beforeEach(function () {
+          grid.getLetters.withArgs(line).returns('HELLO');
+          isWord.withArgs('HELLO').returns(true);
+        });
+
+        describe('and the player marks the line', function () {
+          var scoreChange;
+
+          beforeEach(function () {
+            player.on('score', function (data) {
+              scoreChange = data;
+            });
+
+            player.emit('mark', line);
+          });
+
+          it('should award a point', function () {
+            scoreChange.should.equal(1);
+          });
+        });
+      });
+
+      describe('and the player marks a different line', function () {
         var scoreChange;
 
         beforeEach(function () {
@@ -49,11 +80,11 @@ describe('GameServer', function () {
             scoreChange = data;
           });
 
-          player.emit('mark', {});
+          player.emit('mark', 'some other line');
         });
 
-        it('should award a point', function () {
-          scoreChange.should.equal(1);
+        it('should not award a point', function () {
+          scoreChange.should.not.be.ok;
         });
       });
     });

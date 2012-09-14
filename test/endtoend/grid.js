@@ -13,7 +13,7 @@ describe('Given a new server has started with a fixed grid', function () {
           letterProducer: new SequentialProducer().next
         },
         dictionary: { isWord: function (word) {
-          return word === 'FED';
+          return word === 'DEF' || word === 'GHI';
         }}
       });
     server.start(done);
@@ -65,7 +65,7 @@ describe('Given a new server has started with a fixed grid', function () {
       });
     });
 
-    describe('I mark FED', function () {
+    describe('I mark DEF', function () {
       beforeEach(function () {
         browser.mark({x: 5, y: 0}, {x: 3, y: 0});
       });
@@ -76,7 +76,7 @@ describe('Given a new server has started with a fixed grid', function () {
         }, this, done);
       });
 
-      describe('and I mark HI', function () {
+      describe('and I mark GHI', function () {
         beforeEach(function () {
           browser.mark({x: 7, y: 0}, {x: 8, y: 0});
         });
