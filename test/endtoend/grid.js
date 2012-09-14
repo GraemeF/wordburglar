@@ -72,8 +72,20 @@ describe('Given a new server has started with a fixed grid', function () {
 
       it('should increase my score', function (done) {
         soon(function () {
-          browser.getScore().should.be.greaterThan(0);
+          browser.getScore().should.equal(1);
         }, this, done);
+      });
+
+      describe('and I mark HI', function () {
+        beforeEach(function () {
+          browser.mark({x: 7, y: 0}, {x: 8, y: 0});
+        });
+
+        it('should increase my score', function (done) {
+          soon(function () {
+            browser.getScore().should.equal(2);
+          }, this, done);
+        });
       });
     });
   });

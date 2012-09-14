@@ -1,8 +1,10 @@
 require(['GameEvents', 'jquery'], function (GameEvents, $) {
   var server = new GameEvents();
+  var myScore = 0;
 
   server.on('score', function (data) {
-    $('#score').text(data);
+    myScore += data;
+    $('#score').text(myScore);
   });
 
   server.on('connection', function (data) {
