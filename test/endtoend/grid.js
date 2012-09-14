@@ -13,7 +13,7 @@ describe('Given a new server has started with a fixed grid', function () {
           letterProducer: new SequentialProducer().next
         },
         dictionary: { isWord: function (word) {
-          return word === 'DEF';
+          return word === 'FED';
         }}
       });
     server.start(done);
@@ -58,9 +58,10 @@ describe('Given a new server has started with a fixed grid', function () {
       });
 
       it('should not increase my score', function (done) {
-        soon(function () {
+        browser.wait(function () {
           browser.getScore().should.equal(0);
-        }, this, done);
+          done();
+        });
       });
     });
 

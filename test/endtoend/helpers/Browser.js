@@ -23,8 +23,12 @@ Browser.prototype.waitUntilConnected = function (callback) {
   }, this, callback);
 };
 
+Browser.prototype.wait = function (callback) {
+  this.zombie.wait(callback);
+};
+
 Browser.prototype.clickLetter = function (letterLoc, callback) {
-  this.zombie.clickLink(createLetterSelector(letterLoc.x, letterLoc.y), callback);
+  this.zombie.pressButton(createLetterSelector(letterLoc.x, letterLoc.y), callback);
 };
 
 Browser.prototype.mark = function (firstLetter, lastLetter, callback) {
@@ -61,5 +65,5 @@ function createLetterSelector(x, y) {
     '> tbody' +
     '> tr:nth-child(' + (y + 1) + ')' +
     '> td:nth-child(' + (x + 1) + ')' +
-    '> a';
+    '> button';
 }
