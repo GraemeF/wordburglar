@@ -1,5 +1,5 @@
-require(['GameEvents', 'jquery'], function (GameEvents, $) {
-  var server = new GameEvents();
+require(['ServerProxy', 'jquery'], function (ServerProxy, $) {
+  var server = new ServerProxy();
   var myScore = 0;
 
   server.on('score', function (data) {

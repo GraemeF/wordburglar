@@ -37,11 +37,11 @@ define(['underscore',
     });
   }
 
-  var GameEvents = function () {
+  var ServerProxy = function () {
     _.extend(this, backbone.Events);
   };
 
-  GameEvents.prototype.connect = function () {
+  ServerProxy.prototype.connect = function () {
     var self = this;
     this.socket = io.connect("", {reconnect: false, "sync disconnect on unload": true});
     monitorConnectionState(this.socket, self);
@@ -51,13 +51,13 @@ define(['underscore',
     });
   };
 
-  GameEvents.prototype.disconnect = function () {
+  ServerProxy.prototype.disconnect = function () {
     this.socket.socket.disconnectSync();
   };
 
-  GameEvents.prototype.mark = function () {
-    this.socket.emit('mark', {start: {x: 0, y: 0}, end: {x: 0, y: 0}});
+  ServerProxy.prototype.mark = function (line) {
+    this.socket.emit('mark', line);
   };
 
-  return GameEvents;
+  return ServerProxy;
 });
