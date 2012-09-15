@@ -84,7 +84,7 @@ describe('GameServer', function () {
         });
 
         it('should not award a point', function () {
-          scoreChange.should.not.be.ok;
+          expect(scoreChange).to.not.be.ok;
         });
       });
     });
