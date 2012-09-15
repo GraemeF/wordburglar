@@ -28,16 +28,19 @@ Browser.prototype.wait = function (callback) {
 };
 
 Browser.prototype.clickLetter = function (letterLoc, callback) {
-  this.zombie.pressButton(createLetterSelector(letterLoc.x, letterLoc.y), callback);
+  this.zombie.pressButton(createLetterSelector(letterLoc.x, letterLoc.y),
+                          callback);
 };
 
-Browser.prototype.mark = function (firstLetter, lastLetter, callback) {
+Browser.prototype.mark = function (line, callback) {
   var self = this;
-  self.clickLetter(firstLetter, function (err) {
+  self.clickLetter(line.start, function (err) {
     if (err) {
-      return callback(err);
+      callback(err);
     }
-    return self.clickLetter(lastLetter, callback);
+    else {
+      self.clickLetter(line.end, callback);
+    }
   });
 };
 
@@ -50,12 +53,11 @@ Browser.prototype.getScore = function () {
 };
 
 Browser.prototype.getConnectionStatus = function () {
-  var status = this.zombie.text('span#connection');
-  return status;
+  return this.zombie.text('span#connection');
 };
 
 Browser.prototype.getTitle = function () {
-  return this.zombie.text("title");
+  return this.zombie.text('title');
 };
 
 module.exports = Browser;

@@ -2,7 +2,7 @@ var serverFactory = require('../../lib/serverFactory');
 var Browser = require('./helpers/Browser');
 var SequentialProducer = require('../../lib/SequentialProducer');
 
-describe.skip('Given a new server has started with a fixed grid', function () {
+describe('Given a new server has started with a fixed grid', function () {
   var server;
 
   beforeEach(function (done) {
@@ -53,8 +53,8 @@ describe.skip('Given a new server has started with a fixed grid', function () {
     });
 
     describe('I mark ABC', function () {
-      beforeEach(function () {
-        browser.mark({x: 0, y: 0}, {x: 2, y: 0});
+      beforeEach(function (done) {
+        browser.mark({start: {x: 0, y: 0}, end: {x: 2, y: 0}}, done);
       });
 
       it('should not increase my score', function (done) {
@@ -66,8 +66,8 @@ describe.skip('Given a new server has started with a fixed grid', function () {
     });
 
     describe('I mark DEF', function () {
-      beforeEach(function () {
-        browser.mark({x: 5, y: 0}, {x: 3, y: 0});
+      beforeEach(function (done) {
+        browser.mark({start: {x: 5, y: 0}, end: {x: 3, y: 0}}, done);
       });
 
       it('should increase my score', function (done) {
@@ -77,8 +77,8 @@ describe.skip('Given a new server has started with a fixed grid', function () {
       });
 
       describe('and I mark GHI', function () {
-        beforeEach(function () {
-          browser.mark({x: 7, y: 0}, {x: 8, y: 0});
+        beforeEach(function (done) {
+          browser.mark({start: {x: 7, y: 0}, end: {x: 8, y: 0}}, done);
         });
 
         it('should increase my score', function (done) {
