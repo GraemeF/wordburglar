@@ -56,7 +56,7 @@ define(['underscore',
   };
 
   GameEvents.prototype.mark = function () {
-    this.socket.emit('mark', {});
+    this.socket.emit('mark', {start: {x: 0, y: 0}, end: {x: 0, y: 0}});
   };
 
   return GameEvents;

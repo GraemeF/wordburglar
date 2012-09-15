@@ -2,7 +2,7 @@ var serverFactory = require('../../lib/serverFactory');
 var Browser = require('./helpers/Browser');
 var SequentialProducer = require('../../lib/SequentialProducer');
 
-describe('Given a new server has started with a fixed grid', function () {
+describe.skip('Given a new server has started with a fixed grid', function () {
   var server;
 
   beforeEach(function (done) {

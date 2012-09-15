@@ -16,8 +16,12 @@ describe('A 5x4 Grid with a sequential letter producer', function () {
       grid.fill();
     });
 
-    it('should contain letters', function () {
-      grid.getLetter(2, 2).should.be.within('A', 'Z');
+    it('should contain G at 1,1', function () {
+      grid.getLetter(1, 1).should.equal('G');
+    });
+
+    it('should contain M at 2,2', function () {
+      grid.getLetter(2, 2).should.equal('M');
     });
 
     it('should contain 4 rows', function () {
@@ -29,6 +33,32 @@ describe('A 5x4 Grid with a sequential letter producer', function () {
         _.each(grid.rows, function (row) {
           row.should.have.length(5);
         });
+      });
+    });
+
+    describe('when I get the first 3 letters', function () {
+      var letters;
+
+      beforeEach(function () {
+        letters = grid.getLetters({ start: {x: 0, y: 0},
+                                    end: {x: 2, y: 0} });
+      });
+
+      it('should return ABC', function () {
+        letters.should.equal('ABC');
+      });
+    });
+
+    describe('when I get the first 3 letters in reverse', function () {
+      var letters;
+
+      beforeEach(function () {
+        letters = grid.getLetters({ start: {x: 2, y: 0},
+                                    end: {x: 0, y: 0} });
+      });
+
+      it('should return CBA', function () {
+        letters.should.equal('CBA');
       });
     });
   });
