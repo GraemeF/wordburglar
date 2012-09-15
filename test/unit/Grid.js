@@ -61,5 +61,57 @@ describe('A 5x4 Grid with a sequential letter producer', function () {
         letters.should.equal('CBA');
       });
     });
+
+    describe('when I get the first 3 vertical letters', function () {
+      var letters;
+
+      beforeEach(function () {
+        letters = grid.getLetters({ start: {x: 0, y: 0},
+                                    end: {x: 0, y: 2} });
+      });
+
+      it('should return AFK', function () {
+        letters.should.equal('AFK');
+      });
+    });
+
+    describe('when I get the first 3 vertical letters reversed', function () {
+      var letters;
+
+      beforeEach(function () {
+        letters = grid.getLetters({ start: {x: 0, y: 2},
+                                    end: {x: 0, y: 0} });
+      });
+
+      it('should return KFA', function () {
+        letters.should.equal('KFA');
+      });
+    });
+
+    describe('when I get the first 3 diagonal letters', function () {
+      var letters;
+
+      beforeEach(function () {
+        letters = grid.getLetters({ start: {x: 0, y: 0},
+                                    end: {x: 2, y: 2} });
+      });
+
+      it('should return AGM', function () {
+        letters.should.equal('AGM');
+      });
+    });
+
+    describe('when I get the first 3 diagonal letters reversed', function () {
+      var letters;
+
+      beforeEach(function () {
+        letters = grid.getLetters({ start: {x: 2, y: 2},
+                                    end: {x: 0, y: 0} });
+      });
+
+      it('should return MGA', function () {
+        letters.should.equal('MGA');
+      });
+    });
   });
 });
