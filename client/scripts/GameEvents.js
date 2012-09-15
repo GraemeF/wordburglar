@@ -2,7 +2,7 @@ function monitorConnectionState(socket, emitter) {
   socket.on('connect', function () {
     emitter.trigger('connection', 'connected');
   });
-
+  
   socket.on('connecting', function (transport_name) {
     emitter.trigger('connection', 'connecting with ' + transport_name);
   });

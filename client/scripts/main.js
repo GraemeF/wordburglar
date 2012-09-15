@@ -11,7 +11,7 @@ require(['GameEvents', 'jquery'], function (GameEvents, $) {
     $('#connection').text(data);
   });
 
-  $('td').click(function () {
+  $('button').click(function () {
     server.mark();
   });
 
