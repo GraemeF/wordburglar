@@ -5,6 +5,20 @@ var SequentialProducer = require('../../lib/SequentialProducer');
 describe('A 5x4 Grid with a sequential letter producer', function () {
   var grid;
 
+  function createLineTest(line, expected) {
+    return function () {
+      var letters;
+
+      beforeEach(function () {
+        letters = grid.getLetters(line);
+      });
+
+      it('should return ' + expected, function () {
+        letters.should.equal(expected);
+      });
+    };
+  }
+
   beforeEach(function () {
     grid = new Grid({width: 5,
                       height: 4,
@@ -36,82 +50,39 @@ describe('A 5x4 Grid with a sequential letter producer', function () {
       });
     });
 
-    describe('when I get the first 3 letters', function () {
-      var letters;
+    describe('when I get the first 3 letters',
+             createLineTest({ start: {x: 0, y: 0},
+                              end: {x: 2, y: 0} },
+                            'ABC'));
 
-      beforeEach(function () {
-        letters = grid.getLetters({ start: {x: 0, y: 0},
-                                    end: {x: 2, y: 0} });
-      });
+    describe('when I get the first 3 letters in reverse',
+             createLineTest({ start: {x: 2, y: 0},
+                              end: {x: 0, y: 0} },
+                            "CBA"));
 
-      it('should return ABC', function () {
-        letters.should.equal('ABC');
-      });
-    });
+    describe('when I get the first 3 vertical letters',
+             createLineTest({ start: {x: 0, y: 0},
+                              end: {x: 0, y: 2} },
+                            'AFK'));
 
-    describe('when I get the first 3 letters in reverse', function () {
-      var letters;
+    describe('when I get the first 3 vertical letters reversed',
+             createLineTest({ start: {x: 0, y: 2},
+                              end: {x: 0, y: 0} },
+                            'KFA'));
 
-      beforeEach(function () {
-        letters = grid.getLetters({ start: {x: 2, y: 0},
-                                    end: {x: 0, y: 0} });
-      });
+    describe('when I get the first 3 diagonal letters',
+             createLineTest({ start: {x: 0, y: 0},
+                              end: {x: 2, y: 2} },
+                            'AGM'));
 
-      it('should return CBA', function () {
-        letters.should.equal('CBA');
-      });
-    });
+    describe('when I get the first 3 diagonal letters reversed',
+             createLineTest({ start: {x: 2, y: 2},
+                              end: {x: 0, y: 0} },
+                            'MGA'));
 
-    describe('when I get the first 3 vertical letters', function () {
-      var letters;
-
-      beforeEach(function () {
-        letters = grid.getLetters({ start: {x: 0, y: 0},
-                                    end: {x: 0, y: 2} });
-      });
-
-      it('should return AFK', function () {
-        letters.should.equal('AFK');
-      });
-    });
-
-    describe('when I get the first 3 vertical letters reversed', function () {
-      var letters;
-
-      beforeEach(function () {
-        letters = grid.getLetters({ start: {x: 0, y: 2},
-                                    end: {x: 0, y: 0} });
-      });
-
-      it('should return KFA', function () {
-        letters.should.equal('KFA');
-      });
-    });
-
-    describe('when I get the first 3 diagonal letters', function () {
-      var letters;
-
-      beforeEach(function () {
-        letters = grid.getLetters({ start: {x: 0, y: 0},
-                                    end: {x: 2, y: 2} });
-      });
-
-      it('should return AGM', function () {
-        letters.should.equal('AGM');
-      });
-    });
-
-    describe('when I get the first 3 diagonal letters reversed', function () {
-      var letters;
-
-      beforeEach(function () {
-        letters = grid.getLetters({ start: {x: 2, y: 2},
-                                    end: {x: 0, y: 0} });
-      });
-
-      it('should return MGA', function () {
-        letters.should.equal('MGA');
-      });
-    });
+    describe('when I get the first letter',
+             createLineTest({ start: {x: 0, y: 0},
+                              end: {x: 0, y: 0} },
+                            'A'));
   });
 });
