@@ -19,6 +19,20 @@ describe('A 5x4 Grid with a sequential letter producer', function () {
     };
   }
 
+  function createInvalidLineTest(line) {
+    return function () {
+      var letters;
+
+      beforeEach(function () {
+        letters = grid.getLetters(line);
+      });
+
+      it('should return null', function () {
+        expect(letters).not.to.be.ok;
+      });
+    };
+  }
+
   beforeEach(function () {
     grid = new Grid({width: 5,
                       height: 4,
@@ -84,5 +98,37 @@ describe('A 5x4 Grid with a sequential letter producer', function () {
              createLineTest({ start: {x: 0, y: 0},
                               end: {x: 0, y: 0} },
                             'A'));
+
+    describe('when I get an invalid line at 1 o\'clock',
+             createInvalidLineTest({ start: {x: 0, y: 2},
+                                     end: {x: 1, y: 0} }));
+
+    describe('when I get an invalid line at 2 o\'clock',
+             createInvalidLineTest({ start: {x: 0, y: 2},
+                                     end: {x: 2, y: 1} }));
+
+    describe('when I get an invalid line at 4 o\'clock',
+             createInvalidLineTest({ start: {x: 0, y: 0},
+                                     end: {x: 2, y: 1} }));
+
+    describe('when I get an invalid line at 5 o\'clock',
+             createInvalidLineTest({ start: {x: 0, y: 0},
+                                     end: {x: 1, y: 2} }));
+
+    describe('when I get an invalid line at 7 o\'clock',
+             createInvalidLineTest({ start: {x: 2, y: 0},
+                                     end: {x: 1, y: 2} }));
+
+    describe('when I get an invalid line at 8 o\'clock',
+             createInvalidLineTest({ start: {x: 2, y: 0},
+                                     end: {x: 0, y: 1} }));
+
+    describe('when I get an invalid line at 10 o\'clock',
+             createInvalidLineTest({ start: {x: 2, y: 2},
+                                     end: {x: 0, y: 1} }));
+
+    describe('when I get an invalid line at 11 o\'clock',
+             createInvalidLineTest({ start: {x: 2, y: 2},
+                                     end: {x: 1, y: 0} }));
   });
 });
