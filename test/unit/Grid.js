@@ -130,5 +130,37 @@ describe('A 5x4 Grid with a sequential letter producer', function () {
     describe('when I get an invalid line at 11 o\'clock',
              createInvalidLineTest({ start: {x: 2, y: 2},
                                      end: {x: 1, y: 0} }));
+
+    describe('when I get a line that starts outside the left side',
+             createInvalidLineTest({ start: {x: -1, y: 0},
+                                     end: {x: 0, y: 0} }));
+
+    describe('when I get a line that ends outside the top side',
+             createInvalidLineTest({ start: {x: 0, y: 0},
+                                     end: {x: 0, y: -1} }));
+
+    describe('when I get a line that starts outside the top side',
+             createInvalidLineTest({ start: {x: 0, y: -1},
+                                     end: {x: 0, y: 0} }));
+
+    describe('when I get a line that ends outside the left side',
+             createInvalidLineTest({ start: {x: 0, y: 0},
+                                     end: {x: -1, y: 0} }));
+
+    describe('when I get a line that starts outside the right side',
+             createInvalidLineTest({ start: {x: 5, y: 0},
+                                     end: {x: 0, y: 0} }));
+
+    describe('when I get a line that ends outside the right side',
+             createInvalidLineTest({ start: {x: 0, y: 0},
+                                     end: {x: 5, y: 0} }));
+
+    describe('when I get a line that starts outside the bottom side',
+             createInvalidLineTest({ start: {x: 0, y: 4},
+                                     end: {x: 0, y: 0} }));
+
+    describe('when I get a line that ends outside the bottom side',
+             createInvalidLineTest({ start: {x: 0, y: 0},
+                                     end: {x: 0, y: 4} }));
   });
 });
