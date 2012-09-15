@@ -12,7 +12,7 @@ require(['ServerProxy', 'jquery'], function (ServerProxy, $) {
   });
 
   $('button').click(function () {
-    server.mark();
+    server.mark({start: {x: 0, y: 0}, end: {x: 0, y: 0}});
   });
 
   window.disconnect = function () {
