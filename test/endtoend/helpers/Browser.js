@@ -5,27 +5,67 @@ var Browser = function (uri) {
   this.zombie = new Zombie();
 };
 
-Browser.prototype.navigateHome = function (callback) {
-  this.zombie.visit(this.uri, callback);
+Browser.prototype.close = function (done) {
+  this.zombie.evaluate('window.disconnect()');
+
+  soon(function () {
+    this.getConnectionStatus().should.equal('disconnected');
+  }, this, done);
 };
 
-Browser.prototype.hasLogInButton = function () {
-  return this.zombie.document.getElementById('loginButton');
+Browser.prototype.navigateHome = function (callback) {
+  this.zombie.visit(this.uri, {}, callback);
+};
+
+Browser.prototype.waitUntilConnected = function (callback) {
+  soon(function () {
+    this.getConnectionStatus().should.equal('connected');
+  }, this, callback);
+};
+
+Browser.prototype.wait = function (callback) {
+  this.zombie.wait(callback);
+};
+
+Browser.prototype.clickLetter = function (letterLoc, callback) {
+  this.zombie.pressButton(createLetterSelector(letterLoc.x, letterLoc.y),
+                          callback);
+};
+
+Browser.prototype.mark = function (line, callback) {
+  var self = this;
+  self.clickLetter(line.start, function (err) {
+    if (err) {
+      callback(err);
+    }
+    else {
+      self.clickLetter(line.end, callback);
+    }
+  });
 };
 
 Browser.prototype.getLetter = function (x, y) {
-  return this.zombie.text('table#grid' +
-                            '> tbody' +
-                            '> tr:nth-child(' + (y + 1) + ')' +
-                            '> td:nth-child(' + (x + 1) + ')');
+  return this.zombie.text(createLetterSelector(x, y));
 };
 
 Browser.prototype.getScore = function () {
   return parseInt(this.zombie.text('span#score'), 10);
 };
 
+Browser.prototype.getConnectionStatus = function () {
+  return this.zombie.text('span#connection');
+};
+
 Browser.prototype.getTitle = function () {
-  return this.zombie.text("title");
+  return this.zombie.text('title');
 };
 
 module.exports = Browser;
+
+function createLetterSelector(x, y) {
+  return 'table#grid' +
+    '> tbody' +
+    '> tr:nth-child(' + (y + 1) + ')' +
+    '> td:nth-child(' + (x + 1) + ')' +
+    '> button';
+}

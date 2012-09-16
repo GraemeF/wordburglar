@@ -17,6 +17,8 @@ html
         .hero-unit
           p Score:&nbsp;
             span#score 0
+          p Connection:&nbsp;
+            span#connection initialising
 
       .row
         table#grid
@@ -24,6 +26,11 @@ html
             each row in grid.rows
               tr
                 each letter in row
-                  td #{letter}
+                  td
+                    button
+                     code #{letter}
 
     script(src="/assets/require.js")
+    script
+      require(['main'], function(main) {
+      });
