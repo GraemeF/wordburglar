@@ -6,9 +6,11 @@ define(function () {
 
   Game.prototype.start = function () {
     var self = this;
+    var score = 0;
 
-    this.serverProxy.on('score', function (newScore) {
-      self.ui.setScore(newScore);
+    this.serverProxy.on('score', function (scoreChange) {
+      score += scoreChange;
+      self.ui.setScore(score);
     });
 
     this.serverProxy.on('connection', function (newStatus) {
