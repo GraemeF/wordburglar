@@ -5,7 +5,7 @@ var _ = require('underscore');
 
 var words = ['FED', 'HI'];
 
-describe.skip('Given the dictionary allows ' + words, function () {
+describe('Given the dictionary allows ' + words, function () {
   describe('and a new server has started with a fixed grid', function () {
     var server;
 
