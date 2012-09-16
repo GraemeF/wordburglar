@@ -43,7 +43,6 @@ define(['jquery',
   }
 
   UI.prototype.setLetterUsed = function (letterPos) {
-    console.log('letter at ' + JSON.stringify(letterPos) + ' has been used');
     $(createLetterSelector(letterPos.x, letterPos.y)).addClass('usedInAWord');
   };
 
