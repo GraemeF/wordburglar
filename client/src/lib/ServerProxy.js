@@ -52,6 +52,10 @@ define(['underscore',
     this.socket.on('score', function (data) {
       self.trigger('score', data);
     });
+
+    this.socket.on('letter used', function (data) {
+      self.trigger('letter used', data);
+    });
   };
 
   ServerProxy.prototype.disconnect = function () {

@@ -17,6 +17,10 @@ define(function () {
       self.ui.setConnectionStatus(newStatus);
     });
 
+    this.serverProxy.on('letter used', function (letterPos) {
+      self.ui.setLetterUsed(letterPos);
+    });
+
     this.ui.on('mark', function (line) {
       self.serverProxy.markLine(line);
     });

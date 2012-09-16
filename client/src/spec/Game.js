@@ -16,7 +16,8 @@ define(['lib/Game',
 
       ui = {
         setScore: sinon.stub(),
-        setConnectionStatus: sinon.stub()
+        setConnectionStatus: sinon.stub(),
+        setLetterUsed: sinon.stub()
       };
       _.extend(ui, backbone.Events);
 
@@ -51,6 +52,16 @@ define(['lib/Game',
 
       it('should submit it to the server', function () {
         serverProxy.markLine.should.have.been.calledWith('a line');
+      });
+    });
+
+    describe('when the server sends a used letter', function () {
+      beforeEach(function () {
+        serverProxy.trigger('letter used', {x: 3, y: 4});
+      });
+
+      it('should tell the UI to mark it as used', function () {
+        ui.setLetterUsed.should.have.been.calledWith({x: 3, y: 4});
       });
     });
   });
