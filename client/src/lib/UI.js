@@ -7,8 +7,15 @@ define(['jquery',
     var self = this;
     _.extend(this, backbone.Events);
 
-    $('button').click(function () {
-      self.trigger('mark', {start: {x: 0, y: 0}, end: {x: 0, y: 0}});
+    $('button').click(function (event) {
+      var $start = $('button.startOfLine');
+      if ($start.length > 0) {
+        self.trigger('mark', {start: {x: 0, y: 0}, end: {x: 0, y: 0}});
+        $start.removeClass('startOfLine');
+      }
+      else {
+        $(event.target).closest('button').addClass('startOfLine');
+      }
     });
   };
 

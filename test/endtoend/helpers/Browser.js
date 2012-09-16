@@ -14,7 +14,7 @@ Browser.prototype.close = function (done) {
 };
 
 Browser.prototype.navigateHome = function (callback) {
-  this.zombie.visit(this.uri, callback);
+  this.zombie.visit(this.uri, {}, callback);
 };
 
 Browser.prototype.waitUntilConnected = function (callback) {
