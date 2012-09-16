@@ -11,6 +11,7 @@ describe('GameServer', function () {
   beforeEach(function () {
     httpServer = new events.EventEmitter();
     httpServer.listen = sinon.stub().callsArg(0);
+    httpServer.emitToAllPlayers = sinon.stub();
 
     players = [];
     grid = new events.EventEmitter();
@@ -49,18 +50,29 @@ describe('GameServer', function () {
       });
 
       describe('and a letter in the grid is used', function () {
-        var usedLetterPos;
-
         beforeEach(function () {
-          player.on('letter used', function (letterPos) {
-            usedLetterPos = letterPos;
-          });
-
           grid.emit('letter used', 'position of used letter');
         });
 
         it('should tell the player', function () {
-          usedLetterPos.should.equal('position of used letter');
+          httpServer.emitToAllPlayers.should.have.been.calledWith('letter used', 'position of used letter');
+        });
+
+        describe('and a second player joins', function () {
+          var player2;
+          var usedLetterPos2;
+
+          beforeEach(function () {
+            player2 = new events.EventEmitter();
+            player2.on('letter used', function (letterPos) {
+              usedLetterPos2 = letterPos;
+            });
+            httpServer.emit('new player', player2);
+          });
+
+          it('should tell the player that the letter is used', function () {
+            usedLetterPos2.should.equal('position of used letter');
+          });
         });
       });
 
