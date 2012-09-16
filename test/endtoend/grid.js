@@ -94,6 +94,35 @@ describe('Given the dictionary allows ' + words, function () {
           };
         }
 
+        describe('and another player joins', function () {
+          var browser2;
+
+          beforeEach(function (done) {
+            browser2 = new Browser(server.uri());
+            browser2.navigateHome(function () {
+              browser2.waitUntilConnected(done);
+            });
+          });
+
+          afterEach(function (done) {
+            browser2.close(done);
+          });
+
+          it('should highlight F', letterShouldBeUsed({x: 5, y: 0}));
+
+          it('should highlight E', letterShouldBeUsed({x: 4, y: 0}));
+
+          it('should highlight D', letterShouldBeUsed({x: 3, y: 0}));
+
+          function letterShouldBeUsed(letterPos) {
+            return function (done) {
+              soon(function () {
+                browser2.isLetterUsedInAWord(letterPos).should.be.ok;
+              }, this, done);
+            };
+          }
+        });
+
         describe('and I mark HI', function () {
           beforeEach(function (done) {
             browser.mark({start: {x: 7, y: 0}, end: {x: 8, y: 0}}, done);
