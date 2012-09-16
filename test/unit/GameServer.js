@@ -64,6 +64,22 @@ describe('GameServer', function () {
         });
       });
 
+      describe('and the player sets their name', function () {
+        var name;
+
+        beforeEach(function () {
+          player.on('name changed', function (newName) {
+            name = newName;
+          });
+
+          player.emit('set name', 'Bob');
+        });
+
+        it('should tell the player', function () {
+          name.should.equal('Bob');
+        });
+      });
+
       describe('and the grid has a word at a particular line', function () {
         const line = 'line of HELLO';
 

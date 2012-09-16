@@ -17,8 +17,24 @@ html
     .container
       .row
         .hero-unit
-          p Score:&nbsp;
-            span#score 0
+          table#scoreboard
+            tbody
+              tr
+                th Player
+                th Score
+              tr
+                td
+                  #playerName
+                    form.form-inline#nameForm
+                      input(name="playerName",
+                        placeholder="Your Name",
+                        required)
+                      button.btn(name="submitName",
+                        type="submit") OK
+                td
+                  p
+                    span#score 0
+
           p Connection:&nbsp;
             span#connection initialising
 
@@ -29,7 +45,7 @@ html
               tr
                 each letter in row
                   td
-                    button
+                    button.letter
                      code #{letter}
 
     script(src="/assets/require.js")

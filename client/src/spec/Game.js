@@ -10,12 +10,14 @@ define(['lib/Game',
 
     beforeEach(function () {
       serverProxy = {
-        markLine: sinon.stub()
+        markLine: sinon.stub(),
+        setPlayerName: sinon.stub()
       };
       _.extend(serverProxy, backbone.Events);
 
       ui = {
         setScore: sinon.stub(),
+        setPlayerName: sinon.stub(),
         setConnectionStatus: sinon.stub(),
         setLetterUsed: sinon.stub()
       };
@@ -35,6 +37,16 @@ define(['lib/Game',
       });
     });
 
+    describe('when the server sends a player name', function () {
+      beforeEach(function () {
+        serverProxy.trigger('name changed', 'Trevor');
+      });
+
+      it('should update the UI player name', function () {
+        ui.setPlayerName.should.have.been.calledWith('Trevor');
+      });
+    });
+
     describe('when the server sends a connection status update', function () {
       beforeEach(function () {
         serverProxy.trigger('connection', 'some status');
@@ -42,6 +54,16 @@ define(['lib/Game',
 
       it('should update the UI connection status', function () {
         ui.setConnectionStatus.should.have.been.calledWith('some status');
+      });
+    });
+
+    describe('when the UI sets the player name', function () {
+      beforeEach(function () {
+        ui.trigger('set name', 'my name');
+      });
+
+      it('should submit it to the server', function () {
+        serverProxy.setPlayerName.should.have.been.calledWith('my name');
       });
     });
 
