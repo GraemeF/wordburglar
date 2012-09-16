@@ -80,23 +80,19 @@ describe('Given the dictionary allows ' + words, function () {
           }, this, done);
         });
 
-        it('should highlight F', function (done) {
-          soon(function () {
-            browser.isLetterUsedInAWord({x: 5, y: 0}).should.be.ok;
-          }, this, done);
-        });
+        it('should highlight F', letterShouldBeUsed({x: 5, y: 0}));
 
-        it('should highlight E', function (done) {
-          soon(function () {
-            browser.isLetterUsedInAWord({x: 4, y: 0}).should.be.ok;
-          }, this, done);
-        });
+        it('should highlight E', letterShouldBeUsed({x: 4, y: 0}));
 
-        it('should highlight E', function (done) {
-          soon(function () {
-            browser.isLetterUsedInAWord({x: 3, y: 0}).should.be.ok;
-          }, this, done);
-        });
+        it('should highlight D', letterShouldBeUsed({x: 3, y: 0}));
+
+        function letterShouldBeUsed(letterPos) {
+          return function (done) {
+            soon(function () {
+              browser.isLetterUsedInAWord(letterPos).should.be.ok;
+            }, this, done);
+          };
+        }
 
         describe('and I mark HI', function () {
           beforeEach(function (done) {
