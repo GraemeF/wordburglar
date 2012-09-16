@@ -48,6 +48,11 @@ Browser.prototype.mark = function (line, callback) {
   });
 };
 
+Browser.prototype.setPlayerName = function (name, callback) {
+  this.zombie.fill('playerName', name)
+    .pressButton('submitName', callback);
+};
+
 Browser.prototype.getLetter = function (x, y) {
   return this.zombie.text(createLetterSelector(x, y));
 };
@@ -60,6 +65,10 @@ Browser.prototype.isLetterUsedInAWord = function (letterLoc) {
 
 Browser.prototype.getScore = function () {
   return parseInt(this.zombie.text('span#score'), 10);
+};
+
+Browser.prototype.getPlayerName = function () {
+  return this.zombie.text('span#playerName');
 };
 
 Browser.prototype.getConnectionStatus = function () {
