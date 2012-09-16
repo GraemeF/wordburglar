@@ -3,18 +3,29 @@ define(['jquery',
         'backbone'
        ], function ($, _, backbone) {
 
+  function getCoords(element) {
+    return {
+      x: element.closest('td').index(),
+      y: element.closest('tr').index()
+    };
+  }
+
   var UI = function () {
     var self = this;
     _.extend(this, backbone.Events);
 
     $('button').click(function (event) {
+      var $clicked = $(event.target).closest('button');
       var $start = $('button.startOfLine');
       if ($start.length > 0) {
-        self.trigger('mark', {start: {x: 0, y: 0}, end: {x: 0, y: 0}});
+        self.trigger('mark', {
+          start: getCoords($start),
+          end: getCoords($clicked)
+        });
         $start.removeClass('startOfLine');
       }
       else {
-        $(event.target).closest('button').addClass('startOfLine');
+        $clicked.addClass('startOfLine');
       }
     });
   };

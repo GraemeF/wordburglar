@@ -43,7 +43,10 @@ define(['underscore',
 
   ServerProxy.prototype.connect = function () {
     var self = this;
-    this.socket = io.connect("", {reconnect: false, "sync disconnect on unload": true});
+    this.socket = io.connect("", {
+      reconnect: false,
+      "sync disconnect on unload": true
+    });
     monitorConnectionState(this.socket, self);
 
     this.socket.on('score', function (data) {
