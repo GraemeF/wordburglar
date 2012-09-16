@@ -10,6 +10,10 @@ define(function () {
     this.serverProxy.on('score', function (newScore) {
       self.ui.setScore(newScore);
     });
+
+    this.serverProxy.on('connection', function (newStatus) {
+      self.ui.setConnectionStatus(newStatus);
+    });
   };
 
   return Game;

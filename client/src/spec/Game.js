@@ -12,7 +12,10 @@ define(['lib/Game',
       serverProxy = {};
       _.extend(serverProxy, backbone.Events);
 
-      ui = {setScore: sinon.stub()};
+      ui = {
+        setScore: sinon.stub(),
+        setConnectionStatus: sinon.stub()
+      };
 
       game = new Game(serverProxy, ui);
       game.start();
@@ -25,6 +28,16 @@ define(['lib/Game',
 
       it('should update the UI score', function () {
         ui.setScore.should.have.been.calledWith(55);
+      });
+    });
+
+    describe('when the server sends a connection status update', function () {
+      beforeEach(function () {
+        serverProxy.trigger('connection', 'some status');
+      });
+
+      it('should update the UI connection status', function () {
+        ui.setConnectionStatus.should.have.been.calledWith('some status');
       });
     });
   });

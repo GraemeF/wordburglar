@@ -1,25 +1,15 @@
-require(['ServerProxy', 'UI', 'Game'], function (ServerProxy, UI, Game) {
-  var game = new Game(new ServerProxy(), new UI());
+require(['ServerProxy', 'UI', 'Game'
+        ], function (ServerProxy, UI, Game) {
+  var serverProxy = new ServerProxy();
+  var game = new Game(serverProxy, new UI());
   game.start();
-  var server = new ServerProxy();
-  var myScore = 0;
-
-  server.on('score', function (data) {
-    myScore += data;
-    $('#score').text(myScore);
-  });
-
-  server.on('connection', function (data) {
-    $('#connection').text(data);
-  });
+  serverProxy.connect();
 
   $('button').click(function () {
     server.mark({start: {x: 0, y: 0}, end: {x: 0, y: 0}});
   });
 
   window.disconnect = function () {
-    server.disconnect();
+    serverProxy.disconnect();
   };
-
-  server.connect();
 });
