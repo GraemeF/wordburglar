@@ -1,4 +1,6 @@
-require(['ServerProxy', 'jquery'], function (ServerProxy, $) {
+require(['ServerProxy', 'UI', 'Game'], function (ServerProxy, UI, Game) {
+  var game = new Game(new ServerProxy(), new UI());
+  game.start();
   var server = new ServerProxy();
   var myScore = 0;
 
