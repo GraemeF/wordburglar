@@ -55,7 +55,7 @@ define(['underscore',
     this.socket.socket.disconnectSync();
   };
 
-  ServerProxy.prototype.mark = function (line) {
+  ServerProxy.prototype.markLine = function (line) {
     this.socket.emit('mark', line);
   };
 

@@ -14,6 +14,10 @@ define(function () {
     this.serverProxy.on('connection', function (newStatus) {
       self.ui.setConnectionStatus(newStatus);
     });
+
+    this.ui.on('mark', function (line) {
+      self.serverProxy.markLine(line);
+    });
   };
 
   return Game;

@@ -9,13 +9,16 @@ define(['lib/Game',
     var serverProxy;
 
     beforeEach(function () {
-      serverProxy = {};
+      serverProxy = {
+        markLine: sinon.stub()
+      };
       _.extend(serverProxy, backbone.Events);
 
       ui = {
         setScore: sinon.stub(),
         setConnectionStatus: sinon.stub()
       };
+      _.extend(ui, backbone.Events);
 
       game = new Game(serverProxy, ui);
       game.start();
@@ -38,6 +41,16 @@ define(['lib/Game',
 
       it('should update the UI connection status', function () {
         ui.setConnectionStatus.should.have.been.calledWith('some status');
+      });
+    });
+
+    describe('when the UI marks a line', function () {
+      beforeEach(function () {
+        ui.trigger('mark', 'a line');
+      });
+
+      it('should submit it to the server', function () {
+        serverProxy.markLine.should.have.been.calledWith('a line');
       });
     });
   });
