@@ -90,35 +90,45 @@ describe('A 5x4 Grid with a sequential letter producer', function () {
       });
     });
 
-    describe('when I get the first 3 letters',
+    describe('when I get an East line',
              createLineTest({ start: {x: 0, y: 0},
                               end: {x: 2, y: 0} },
                             'ABC'));
 
-    describe('when I get the first 3 letters in reverse',
+    describe('when I get a West line',
              createLineTest({ start: {x: 2, y: 0},
                               end: {x: 0, y: 0} },
                             "CBA"));
 
-    describe('when I get the first 3 vertical letters',
+    describe('when I get a South line',
              createLineTest({ start: {x: 0, y: 0},
                               end: {x: 0, y: 2} },
                             'AFK'));
 
-    describe('when I get the first 3 vertical letters reversed',
+    describe('when I get a North line',
              createLineTest({ start: {x: 0, y: 2},
                               end: {x: 0, y: 0} },
                             'KFA'));
 
-    describe('when I get the first 3 diagonal letters',
+    describe('when I get a South-East line',
              createLineTest({ start: {x: 0, y: 0},
                               end: {x: 2, y: 2} },
                             'AGM'));
 
-    describe('when I get the first 3 diagonal letters reversed',
+    describe('when I get a North-West line',
              createLineTest({ start: {x: 2, y: 2},
                               end: {x: 0, y: 0} },
                             'MGA'));
+
+    describe('when I get a North-East line',
+             createLineTest({ start: {x: 0, y: 2},
+                              end: {x: 2, y: 0} },
+                            'KGC'));
+
+    describe('when I get a South-West line',
+             createLineTest({ start: {x: 2, y: 0},
+                              end: {x: 0, y: 2} },
+                            'CGK'));
 
     describe('when I get the first letter',
              createLineTest({ start: {x: 0, y: 0},
