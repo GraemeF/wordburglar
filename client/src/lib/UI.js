@@ -14,7 +14,7 @@ define(['jquery',
     var self = this;
     _.extend(this, backbone.Events);
 
-    $('button').click(function (event) {
+    $('button.letter').click(function (event) {
       var $clicked = $(event.target).closest('button');
       var $start = $('button.startOfLine');
       if ($start.length > 0) {
@@ -28,10 +28,19 @@ define(['jquery',
         $clicked.addClass('startOfLine');
       }
     });
+
+    $('form#nameForm').submit(function () {
+      self.trigger('set name', $('form#nameForm > input').val());
+      return false;
+    });
   };
 
   UI.prototype.setScore = function (myScore) {
     $('#score').text(myScore);
+  };
+
+  UI.prototype.setPlayerName = function (newName) {
+    $('#playerName').replaceWith($('<p id="playerName"/>').text(newName));
   };
 
   function createLetterSelector(x, y) {

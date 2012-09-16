@@ -24,12 +24,13 @@ html
                 th Score
               tr
                 td
-                  form.form-inline
-                    input(name="playerName",
-                    placeholder="Your Name",
-                    required)
-                    button.btn(name="submitName",
-                    type="submit") OK
+                  #playerName
+                    form.form-inline#nameForm
+                      input(name="playerName",
+                        placeholder="Your Name",
+                        required)
+                      button.btn(name="submitName",
+                        type="submit") OK
                 td
                   p
                     span#score 0
@@ -44,7 +45,7 @@ html
               tr
                 each letter in row
                   td
-                    button
+                    button.letter
                      code #{letter}
 
     script(src="/assets/require.js")

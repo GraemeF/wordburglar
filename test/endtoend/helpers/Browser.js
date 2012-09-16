@@ -68,7 +68,7 @@ Browser.prototype.getScore = function () {
 };
 
 Browser.prototype.getPlayerName = function () {
-  return this.zombie.text('span#playerName');
+  return this.zombie.text('#playerName');
 };
 
 Browser.prototype.getConnectionStatus = function () {

@@ -13,6 +13,10 @@ define(function () {
       self.ui.setScore(score);
     });
 
+    this.serverProxy.on('name changed', function (newName) {
+      self.ui.setPlayerName(newName);
+    });
+
     this.serverProxy.on('connection', function (newStatus) {
       self.ui.setConnectionStatus(newStatus);
     });
@@ -23,6 +27,10 @@ define(function () {
 
     this.ui.on('mark', function (line) {
       self.serverProxy.markLine(line);
+    });
+
+    this.ui.on('set name', function (newName) {
+      self.serverProxy.setPlayerName(newName);
     });
   };
 

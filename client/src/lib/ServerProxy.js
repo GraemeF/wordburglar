@@ -56,6 +56,10 @@ define(['underscore',
     this.socket.on('letter used', function (data) {
       self.trigger('letter used', data);
     });
+
+    this.socket.on('name changed', function (data) {
+      self.trigger('name changed', data);
+    });
   };
 
   ServerProxy.prototype.disconnect = function () {
@@ -64,6 +68,10 @@ define(['underscore',
 
   ServerProxy.prototype.markLine = function (line) {
     this.socket.emit('mark', line);
+  };
+
+  ServerProxy.prototype.setPlayerName = function (newName) {
+    this.socket.emit('set name', newName);
   };
 
   return ServerProxy;
