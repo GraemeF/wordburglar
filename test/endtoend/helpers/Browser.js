@@ -1,5 +1,9 @@
 var Zombie = require('zombie');
 
+var hasClass = function (element, cls) {
+  return (' ' + element.className + ' ').indexOf(' ' + cls + ' ') > -1;
+};
+
 var Browser = function (uri) {
   this.uri = uri;
   this.zombie = new Zombie();
@@ -46,6 +50,12 @@ Browser.prototype.mark = function (line, callback) {
 
 Browser.prototype.getLetter = function (x, y) {
   return this.zombie.text(createLetterSelector(x, y));
+};
+
+Browser.prototype.isLetterUsedInAWord = function (letterLoc) {
+  return hasClass(this.zombie.query(createLetterSelector(letterLoc.x,
+                                                         letterLoc.y)),
+                  'usedInAWord');
 };
 
 Browser.prototype.getScore = function () {

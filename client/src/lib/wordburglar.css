@@ -1,3 +1,7 @@
 button.startOfLine {
     background-color: red;
 }
+
+button.usedInAWord {
+    background-color: green;
+}

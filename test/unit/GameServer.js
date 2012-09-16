@@ -13,10 +13,11 @@ describe('GameServer', function () {
     httpServer.listen = sinon.stub().callsArg(0);
 
     players = [];
-    grid = {
-      fill: sinon.stub(),
-      getLetters: sinon.stub()
-    };
+    grid = new events.EventEmitter();
+    grid.fill = sinon.stub();
+    grid.getLetters = sinon.stub();
+    grid.markUsed = sinon.stub();
+
     isWord = sinon.stub().returns(false);
 
     server = new GameServer(httpServer, grid, isWord, players);
@@ -47,6 +48,22 @@ describe('GameServer', function () {
         players.should.contain(player);
       });
 
+      describe('and a letter in the grid is used', function () {
+        var usedLetterPos;
+
+        beforeEach(function () {
+          player.on('letter used', function (letterPos) {
+            usedLetterPos = letterPos;
+          });
+
+          grid.emit('letter used', 'position of used letter');
+        });
+
+        it('should tell the player', function () {
+          usedLetterPos.should.equal('position of used letter');
+        });
+      });
+
       describe('and the grid has a word at a particular line', function () {
         const line = 'line of HELLO';
 
@@ -57,10 +74,16 @@ describe('GameServer', function () {
 
         describe('and the player marks the line', function () {
           var scoreChange;
+          var lettersUsed;
 
           beforeEach(function () {
             player.on('score', function (data) {
               scoreChange = data;
+            });
+
+            lettersUsed = [];
+            player.on('letter used', function (data) {
+              lettersUsed.push(data);
             });
 
             player.emit('mark', line);
@@ -68,6 +91,10 @@ describe('GameServer', function () {
 
           it('should award a point', function () {
             scoreChange.should.equal(1);
+          });
+
+          it('should mark the line as used', function () {
+            grid.markUsed.should.have.been.calledWith(line);
           });
         });
       });

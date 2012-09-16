@@ -39,7 +39,7 @@ describe('A 5x4 Grid with a sequential letter producer', function () {
                       letterProducer: new SequentialProducer().next});
   });
 
-  describe('when filled', function () {
+  describe('filled with letters', function () {
     beforeEach(function () {
       grid.fill();
     });
@@ -61,6 +61,32 @@ describe('A 5x4 Grid with a sequential letter producer', function () {
         _.each(grid.rows, function (row) {
           row.should.have.length(5);
         });
+      });
+    });
+
+    describe('when I mark the first 3 letters as used', function () {
+      var lettersUsed;
+
+      beforeEach(function () {
+        lettersUsed = [];
+        grid.on('letter used', function (letterPos) {
+          lettersUsed.push(letterPos);
+        });
+
+        grid.markUsed({ start: {x: 0, y: 0},
+                        end: {x: 3, y: 0} })
+      });
+
+      it('should emit an event marking A as used by a word', function () {
+        lettersUsed[0].should.eql({x: 0, y: 0});
+      });
+
+      it('should emit an event marking B as used by a word', function () {
+        lettersUsed[1].should.eql({x: 1, y: 0});
+      });
+
+      it('should emit an event marking C as used by a word', function () {
+        lettersUsed[2].should.eql({x: 2, y: 0});
       });
     });
 
