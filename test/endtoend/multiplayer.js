@@ -52,6 +52,27 @@ describe('Given the dictionary allows ' + words, function () {
           }, this, done);
         });
       });
+
+      describe('and another player joins', function () {
+        var browser2;
+
+        beforeEach(function (done) {
+          browser2 = new Browser(server.uri());
+          browser2.navigateHome(function () {
+            browser2.waitUntilConnected(done);
+          });
+        });
+
+        afterEach(function (done) {
+          browser2.close(done);
+        });
+
+        it('player 1 should show 2 players', function (done) {
+          soon(function () {
+            browser2.getNumberOfPlayers().should.have.count(2);
+          }, this, done);
+        });
+      });
     });
   });
 });

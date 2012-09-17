@@ -37,6 +37,10 @@ describe('GameServer', function () {
       grid.fill.should.have.been.called;
     });
 
+    it('should have no players', function () {
+      players.should.be.empty;
+    });
+
     describe('and a new player joins', function () {
       var player;
 

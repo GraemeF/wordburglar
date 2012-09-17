@@ -79,6 +79,10 @@ Browser.prototype.getTitle = function () {
   return this.zombie.text('title');
 };
 
+Browser.prototype.getNumberOfPlayers = function () {
+  return this.zombie.queryAll('span#playerName').length;
+};
+
 module.exports = Browser;
 
 function createLetterSelector(x, y) {
