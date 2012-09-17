@@ -7,8 +7,11 @@ describe('GameServer', function () {
   var grid;
   var players;
   var isWord;
+  var idFactory;
 
   beforeEach(function () {
+    idFactory = sinon.stub();
+
     httpServer = new events.EventEmitter();
     httpServer.listen = sinon.stub().callsArg(0);
     httpServer.emitToAllPlayers = sinon.stub();
@@ -21,7 +24,7 @@ describe('GameServer', function () {
 
     isWord = sinon.stub().returns(false);
 
-    server = new GameServer(httpServer, grid, isWord, players);
+    server = new GameServer(httpServer, grid, isWord, players, idFactory);
   });
 
   describe('when started', function () {
@@ -45,6 +48,7 @@ describe('GameServer', function () {
       var player;
 
       beforeEach(function () {
+        idFactory.returns('player id');
         player = new events.EventEmitter();
         httpServer.emit('new player', player);
       });
@@ -53,13 +57,21 @@ describe('GameServer', function () {
         players.should.contain(player);
       });
 
+      it('should broadcast the new player', function () {
+        httpServer.emitToAllPlayers
+          .should.have.been.calledWith('new player', 'player id');
+      });
+
       describe('and a letter in the grid is used', function () {
         beforeEach(function () {
-          grid.emit('letter used', 'position of used letter');
+          grid.emit('letter used',
+                    'position of used letter');
         });
 
         it('should tell the player', function () {
-          httpServer.emitToAllPlayers.should.have.been.calledWith('letter used', 'position of used letter');
+          httpServer.emitToAllPlayers
+            .should.have.been.calledWith('letter used',
+                                         'position of used letter');
         });
 
         describe('and a second player joins', function () {
