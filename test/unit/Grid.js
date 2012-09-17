@@ -69,7 +69,7 @@ describe('A 5x4 Grid with a sequential letter producer', function () {
 
       beforeEach(function () {
         lettersUsed = [];
-        grid.on('letter used', function (letterPos) {
+        grid.on('letterUsed', function (letterPos) {
           lettersUsed.push(letterPos);
         });
 

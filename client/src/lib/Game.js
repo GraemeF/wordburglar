@@ -13,7 +13,11 @@ define(function () {
       self.ui.setScore(score);
     });
 
-    this.serverProxy.on('name changed', function (newName) {
+    this.serverProxy.on('newPlayer', function (id) {
+      self.ui.addPlayer(id);
+    });
+
+    this.serverProxy.on('nameChanged', function (newName) {
       self.ui.setPlayerName(newName);
     });
 
@@ -21,7 +25,7 @@ define(function () {
       self.ui.setConnectionStatus(newStatus);
     });
 
-    this.serverProxy.on('letter used', function (letterPos) {
+    this.serverProxy.on('letterUsed', function (letterPos) {
       self.ui.setLetterUsed(letterPos);
     });
 
@@ -29,7 +33,7 @@ define(function () {
       self.serverProxy.markLine(line);
     });
 
-    this.ui.on('set name', function (newName) {
+    this.ui.on('setName', function (newName) {
       self.serverProxy.setPlayerName(newName);
     });
   };

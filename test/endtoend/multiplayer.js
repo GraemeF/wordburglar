@@ -41,6 +41,12 @@ describe('Given the dictionary allows ' + words, function () {
         browser.close(done);
       });
 
+      it('player 1 should show 1 player', function (done) {
+        soon(function () {
+          browser.getNumberOfPlayers().should.equal(1);
+        }, this, done);
+      });
+
       describe('and submit "Bob" as their name', function () {
         beforeEach(function (done) {
           browser.setPlayerName('Bob', done);
@@ -68,6 +74,12 @@ describe('Given the dictionary allows ' + words, function () {
         });
 
         it('player 1 should show 2 players', function (done) {
+          soon(function () {
+            browser.getNumberOfPlayers().should.equal(2);
+          }, this, done);
+        });
+
+        it('player 2 should show 2 players', function (done) {
           soon(function () {
             browser2.getNumberOfPlayers().should.equal(2);
           }, this, done);

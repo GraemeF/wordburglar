@@ -50,7 +50,7 @@ describe('GameServer', function () {
       beforeEach(function () {
         idFactory.returns('player id');
         player = new events.EventEmitter();
-        httpServer.emit('new player', player);
+        httpServer.emit('newPlayer', player);
       });
 
       it('should add a player', function () {
@@ -59,35 +59,41 @@ describe('GameServer', function () {
 
       it('should broadcast the new player', function () {
         httpServer.emitToAllPlayers
-          .should.have.been.calledWith('new player', 'player id');
+          .should.have.been.calledWith('newPlayer', 'player id');
       });
 
       describe('and a letter in the grid is used', function () {
         beforeEach(function () {
-          grid.emit('letter used',
+          grid.emit('letterUsed',
                     'position of used letter');
         });
 
         it('should tell the player', function () {
           httpServer.emitToAllPlayers
-            .should.have.been.calledWith('letter used',
+            .should.have.been.calledWith('letterUsed',
                                          'position of used letter');
         });
 
         describe('and a second player joins', function () {
           var player2;
           var usedLetterPos2;
+          var newPlayer = sinon.stub();
 
           beforeEach(function () {
             player2 = new events.EventEmitter();
-            player2.on('letter used', function (letterPos) {
+            player2.on('letterUsed', function (letterPos) {
               usedLetterPos2 = letterPos;
             });
-            httpServer.emit('new player', player2);
+            player2.on('newPlayer', newPlayer);
+            httpServer.emit('newPlayer', player2);
           });
 
           it('should tell the player that the letter is used', function () {
             usedLetterPos2.should.equal('position of used letter');
+          });
+
+          it('should tell the player that the first player is playing', function () {
+            newPlayer.should.have.been.calledTwice;
           });
         });
       });
@@ -96,11 +102,11 @@ describe('GameServer', function () {
         var name;
 
         beforeEach(function () {
-          player.on('name changed', function (newName) {
+          player.on('nameChanged', function (newName) {
             name = newName;
           });
 
-          player.emit('set name', 'Bob');
+          player.emit('setName', 'Bob');
         });
 
         it('should tell the player', function () {
@@ -126,7 +132,7 @@ describe('GameServer', function () {
             });
 
             lettersUsed = [];
-            player.on('letter used', function (data) {
+            player.on('letterUsed', function (data) {
               lettersUsed.push(data);
             });
 

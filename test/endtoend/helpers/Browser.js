@@ -80,7 +80,7 @@ Browser.prototype.getTitle = function () {
 };
 
 Browser.prototype.getNumberOfPlayers = function () {
-  return this.zombie.queryAll('span#playerName').length;
+  return this.zombie.queryAll('tr.player').length;
 };
 
 module.exports = Browser;

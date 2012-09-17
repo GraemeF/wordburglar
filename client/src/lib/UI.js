@@ -30,7 +30,7 @@ define(['jquery',
     });
 
     $('form#nameForm').submit(function () {
-      self.trigger('set name', $('form#nameForm > input').val());
+      self.trigger('setName', $('form#nameForm > input').val());
       return false;
     });
   };
@@ -41,6 +41,10 @@ define(['jquery',
 
   UI.prototype.setPlayerName = function (newName) {
     $('#playerName').replaceWith($('<p id="playerName"/>').text(newName));
+  };
+
+  UI.prototype.addPlayer = function (id) {
+    $('#players').append($('<tr class="player"><td>Anon</td><td></td></tr>'));
   };
 
   function createLetterSelector(x, y) {

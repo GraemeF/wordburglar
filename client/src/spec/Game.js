@@ -16,6 +16,7 @@ define(['lib/Game',
       _.extend(serverProxy, backbone.Events);
 
       ui = {
+        addPlayer: sinon.stub(),
         setScore: sinon.stub(),
         setPlayerName: sinon.stub(),
         setConnectionStatus: sinon.stub(),
@@ -39,11 +40,21 @@ define(['lib/Game',
 
     describe('when the server sends a player name', function () {
       beforeEach(function () {
-        serverProxy.trigger('name changed', 'Trevor');
+        serverProxy.trigger('nameChanged', 'Trevor');
       });
 
       it('should update the UI player name', function () {
         ui.setPlayerName.should.have.been.calledWith('Trevor');
+      });
+    });
+
+    describe('when the server sends a new player', function () {
+      beforeEach(function () {
+        serverProxy.trigger('newPlayer', 'player id');
+      });
+
+      it('should add the player to the UI', function () {
+        ui.addPlayer.should.have.been.calledWith('player id');
       });
     });
 
@@ -59,7 +70,7 @@ define(['lib/Game',
 
     describe('when the UI sets the player name', function () {
       beforeEach(function () {
-        ui.trigger('set name', 'my name');
+        ui.trigger('setName', 'my name');
       });
 
       it('should submit it to the server', function () {
@@ -79,7 +90,7 @@ define(['lib/Game',
 
     describe('when the server sends a used letter', function () {
       beforeEach(function () {
-        serverProxy.trigger('letter used', {x: 3, y: 4});
+        serverProxy.trigger('letterUsed', {x: 3, y: 4});
       });
 
       it('should tell the UI to mark it as used', function () {
