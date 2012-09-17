@@ -69,7 +69,7 @@ describe('Given the dictionary allows ' + words, function () {
 
         it('player 1 should show 2 players', function (done) {
           soon(function () {
-            browser2.getNumberOfPlayers().should.have.count(2);
+            browser2.getNumberOfPlayers().should.equal(2);
           }, this, done);
         });
       });
