@@ -33,8 +33,8 @@ Browser.prototype.wait = function (callback) {
 };
 
 Browser.prototype.clickLetter = function (letterLoc, callback) {
-  this.zombie.pressButton(createLetterSelector(letterLoc.x, letterLoc.y),
-                          callback);
+  var letter = this.zombie.query(createLetterSelector(letterLoc.x, letterLoc.y));
+  this.zombie.fire('click', letter, callback);
 };
 
 Browser.prototype.mark = function (line, callback) {
@@ -101,6 +101,5 @@ function createLetterSelector(x, y) {
   return 'table#grid' +
     '> tbody' +
     '> tr:nth-child(' + (y + 1) + ')' +
-    '> td:nth-child(' + (x + 1) + ')' +
-    '> button';
+    '> td:nth-child(' + (x + 1) + ')';
 }

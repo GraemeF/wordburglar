@@ -1,7 +1,7 @@
-button.startOfLine {
+td.startOfLine {
     background-color: red;
 }
 
-button.usedInAWord {
+td.usedInAWord {
     background-color: green;
 }

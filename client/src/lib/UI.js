@@ -14,9 +14,9 @@ define(['jquery',
     var self = this;
     _.extend(this, backbone.Events);
 
-    $('button.letter').click(function (event) {
-      var $clicked = $(event.target).closest('button');
-      var $start = $('button.startOfLine');
+    $('td.letter').click(function (event) {
+      var $clicked = $(event.target).closest('td');
+      var $start = $('td.startOfLine');
       if ($start.length > 0) {
         self.trigger('mark', {
           start: getCoords($start),
@@ -54,8 +54,7 @@ define(['jquery',
     return 'table#grid' +
       '> tbody' +
       '> tr:nth-child(' + (y + 1) + ')' +
-      '> td:nth-child(' + (x + 1) + ')' +
-      '> button';
+      '> td:nth-child(' + (x + 1) + ')';
   }
 
   UI.prototype.setLetterUsed = function (letterPos) {
