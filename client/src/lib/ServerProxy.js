@@ -53,12 +53,16 @@ define(['underscore',
       self.trigger('score', data);
     });
 
-    this.socket.on('letter used', function (data) {
-      self.trigger('letter used', data);
+    this.socket.on('letterUsed', function (data) {
+      self.trigger('letterUsed', data);
     });
 
-    this.socket.on('name changed', function (data) {
-      self.trigger('name changed', data);
+    this.socket.on('nameChanged', function (data) {
+      self.trigger('nameChanged', data);
+    });
+
+    this.socket.on('newPlayer', function (data) {
+      self.trigger('newPlayer', data);
     });
   };
 
@@ -71,7 +75,7 @@ define(['underscore',
   };
 
   ServerProxy.prototype.setPlayerName = function (newName) {
-    this.socket.emit('set name', newName);
+    this.socket.emit('setName', newName);
   };
 
   return ServerProxy;

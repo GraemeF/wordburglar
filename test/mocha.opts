@@ -1,2 +1,2 @@
---require test/common ./test/unit
+--timeout 3000 --require test/common ./test/unit
 ./test/endtoend

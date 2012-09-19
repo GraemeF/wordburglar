@@ -41,6 +41,12 @@ describe('Given the dictionary allows ' + words, function () {
         browser.close(done);
       });
 
+      it('player 1 should show 1 player', function (done) {
+        soon(function () {
+          browser.getNumberOfPlayers().should.equal(1);
+        }, this, done);
+      });
+
       describe('and submit "Bob" as their name', function () {
         beforeEach(function (done) {
           browser.setPlayerName('Bob', done);
@@ -50,6 +56,39 @@ describe('Given the dictionary allows ' + words, function () {
           soon(function () {
             browser.getPlayerName().should.equal('Bob');
           }, this, done);
+        });
+
+        describe('and another player joins', function () {
+          var browser2;
+
+          beforeEach(function (done) {
+            browser2 = new Browser(server.uri());
+            browser2.navigateHome(function () {
+              browser2.waitUntilConnected(done);
+            });
+          });
+
+          afterEach(function (done) {
+            browser2.close(done);
+          });
+
+          it('player 1 should show 2 players', function (done) {
+            soon(function () {
+              browser.getNumberOfPlayers().should.equal(2);
+            }, this, done);
+          });
+
+          it('player 2 should show 2 players', function (done) {
+            soon(function () {
+              browser2.getNumberOfPlayers().should.equal(2);
+            }, this, done);
+          });
+
+          it('should show "Bob" as the other player name', function (done) {
+            soon(function () {
+              browser2.getPlayerNames().should.contain('Bob');
+            }, this, done);
+          });
         });
       });
     });
