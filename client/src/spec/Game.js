@@ -40,11 +40,11 @@ define(['lib/Game',
 
     describe('when the server sends a player name', function () {
       beforeEach(function () {
-        serverProxy.trigger('nameChanged', 'Trevor');
+        serverProxy.trigger('nameChanged', {id: 33, name: 'Trevor'});
       });
 
       it('should update the UI player name', function () {
-        ui.setPlayerName.should.have.been.calledWith('Trevor');
+        ui.setPlayerName.should.have.been.calledWith({id: 33, name: 'Trevor'});
       });
     });
 

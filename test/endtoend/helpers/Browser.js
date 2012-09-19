@@ -1,4 +1,5 @@
 var Zombie = require('zombie');
+var _ = require('underscore');
 
 var hasClass = function (element, cls) {
   return (' ' + element.className + ' ').indexOf(' ' + cls + ' ') > -1;
@@ -67,8 +68,16 @@ Browser.prototype.getScore = function () {
   return parseInt(this.zombie.text('span#score'), 10);
 };
 
+Browser.prototype.getPlayerNames = function () {
+  var self = this;
+
+  return _.map(findPlayerRows(this.zombie), function (row) {
+    return self.zombie.text('.playerName', row);
+  });
+};
+
 Browser.prototype.getPlayerName = function () {
-  return this.zombie.text('#playerName');
+  return this.zombie.text('.playerName');
 };
 
 Browser.prototype.getConnectionStatus = function () {
@@ -79,8 +88,11 @@ Browser.prototype.getTitle = function () {
   return this.zombie.text('title');
 };
 
+function findPlayerRows(zombie) {
+  return zombie.queryAll('tr.player');
+}
 Browser.prototype.getNumberOfPlayers = function () {
-  return this.zombie.queryAll('tr.player').length;
+  return findPlayerRows(this.zombie).length;
 };
 
 module.exports = Browser;

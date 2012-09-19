@@ -46,9 +46,10 @@ describe('GameServer', function () {
 
     describe('and a new player joins', function () {
       var player;
+      const id = 'player id';
 
       beforeEach(function () {
-        idFactory.returns('player id');
+        idFactory.returns(id);
         player = new events.EventEmitter();
         httpServer.emit('newPlayer', player);
       });
@@ -59,7 +60,7 @@ describe('GameServer', function () {
 
       it('should broadcast the new player', function () {
         httpServer.emitToAllPlayers
-          .should.have.been.calledWith('newPlayer', 'player id');
+          .should.have.been.calledWith('newPlayer', id);
       });
 
       describe('and a letter in the grid is used', function () {
@@ -99,18 +100,14 @@ describe('GameServer', function () {
       });
 
       describe('and the player sets their name', function () {
-        var name;
-
         beforeEach(function () {
-          player.on('nameChanged', function (newName) {
-            name = newName;
-          });
-
           player.emit('setName', 'Bob');
         });
 
         it('should tell the player', function () {
-          name.should.equal('Bob');
+          httpServer.emitToAllPlayers
+            .should.have.been.calledWith('nameChanged',
+                                         {id: id, name: "Bob"});
         });
       });
 

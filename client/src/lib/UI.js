@@ -39,12 +39,15 @@ define(['jquery',
     $('#score').text(myScore);
   };
 
-  UI.prototype.setPlayerName = function (newName) {
-    $('#playerName').replaceWith($('<p id="playerName"/>').text(newName));
+  UI.prototype.setPlayerName = function (details) {
+    $('#' + getPlayerRowId(details.id) + ' > .playerName')
+      .text(details.name);
   };
 
   UI.prototype.addPlayer = function (id) {
-    $('#players').append($('<tr class="player"><td>Anon</td><td></td></tr>'));
+    $('#players').append($('<tr id="' + getPlayerRowId(id) + '" class="player">'
+                             + '<td class="playerName">Anonymous</td>'
+                             + '<td></td></tr>'));
   };
 
   function createLetterSelector(x, y) {
@@ -62,6 +65,10 @@ define(['jquery',
   UI.prototype.setConnectionStatus = function (newStatus) {
     $('#connection').text(newStatus);
   };
+
+  function getPlayerRowId(id) {
+    return "player_" + id;
+  }
 
   return UI;
 });

@@ -17,20 +17,20 @@ html
     .container
       .row
         .hero-unit
+          form.form-inline#nameForm
+            input(name="playerName",
+              placeholder="Your Name",
+              required)
+            button.btn(name="submitName",
+              type="submit") OK
           table#scoreboard
             tbody#players
               tr
                 th Player
                 th Score
               tr
-                td
-                  #playerName
-                    form.form-inline#nameForm
-                      input(name="playerName",
-                        placeholder="Your Name",
-                        required)
-                      button.btn(name="submitName",
-                        type="submit") OK
+                td.playerName
+
                 td
                   p
                     span#score 0
