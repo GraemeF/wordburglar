@@ -1,7 +1,7 @@
 var GameServer = require('../../lib/GameServer');
 var events = require('events');
 
-describe('GameServer', function () {
+describe('GameServer XXX', function () {
   var server;
   var httpServer;
   var grid;
@@ -42,6 +42,19 @@ describe('GameServer', function () {
 
     it('should have no players', function () {
       players.should.be.empty;
+    });
+
+    describe('and a letter is used', function () {
+      var letterPos = 'letter position';
+
+      beforeEach(function () {
+        grid.emit('letterUsed', letterPos);
+      });
+
+      it('should tell all players that the letter is used', function () {
+        httpServer.emitToAllPlayers
+          .should.have.been.calledWith('letterUsed', letterPos);
+      });
     });
 
     describe('and a new player joins', function () {
@@ -120,28 +133,37 @@ describe('GameServer', function () {
         });
 
         describe('and the player marks the line', function () {
-          var scoreChange;
-          var lettersUsed;
-
           beforeEach(function () {
-            player.on('score', function (data) {
-              scoreChange = data;
-            });
-
-            lettersUsed = [];
-            player.on('letterUsed', function (data) {
-              lettersUsed.push(data);
-            });
-
             player.emit('mark', line);
           });
 
           it('should award a point', function () {
-            scoreChange.should.equal(1);
+            httpServer.emitToAllPlayers
+              .should.have.been.calledWith('score', {id: id, points: 1});
           });
 
           it('should mark the line as used', function () {
             grid.markUsed.should.have.been.calledWith(line);
+          });
+
+          describe('and the grid has another word at a particular line', function () {
+            const line = 'line of WORLD';
+
+            beforeEach(function () {
+              grid.getLetters.withArgs(line).returns('WORLD');
+              isWord.withArgs('WORLD').returns(true);
+            });
+
+            describe('and the player marks the other line', function () {
+              beforeEach(function () {
+                player.emit('mark', line);
+              });
+
+              it('should award another point', function () {
+                httpServer.emitToAllPlayers
+                  .should.have.been.calledWith('score', {id: id, points: 2});
+              });
+            });
           });
         });
       });

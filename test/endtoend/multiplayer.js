@@ -52,9 +52,9 @@ describe('Given the dictionary allows ' + words, function () {
           browser.setPlayerName('Bob', done);
         });
 
-        it('should show "Bob" as the player name', function (done) {
+        it('should show "Bob" has 0 points', function (done) {
           soon(function () {
-            browser.getPlayerName().should.equal('Bob');
+            browser.getPlayerScore('Bob').should.equal(0);
           }, this, done);
         });
 
@@ -89,6 +89,24 @@ describe('Given the dictionary allows ' + words, function () {
               browser2.getPlayerNames().should.contain('Bob');
             }, this, done);
           });
+
+          describe('and player 1 scores a point', function () {
+            beforeEach(function (done) {
+              browser.mark({start: {x: 5, y: 0}, end: {x: 3, y: 0}}, done);
+            });
+
+            it('should show player 1 that they have scored a point', function (done) {
+              soon(function () {
+                browser.getPlayerScore('Bob').should.equal(1);
+              }, this, done);
+            });
+
+            it('should show player 2 that player 1 has scored a point', function (done) {
+              soon(function () {
+                browser2.getPlayerScore('Bob').should.equal(1);
+              }, this, done);
+            });
+          })
         });
       });
     });

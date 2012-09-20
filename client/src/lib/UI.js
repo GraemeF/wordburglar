@@ -35,8 +35,9 @@ define(['jquery',
     });
   };
 
-  UI.prototype.setScore = function (myScore) {
-    $('#score').text(myScore);
+  UI.prototype.setScore = function (details) {
+    $('#' + getPlayerRowId(details.id) + ' > td > span.score')
+      .text(details.points);
   };
 
   UI.prototype.setPlayerName = function (details) {
@@ -47,7 +48,7 @@ define(['jquery',
   UI.prototype.addPlayer = function (id) {
     $('#players').append($('<tr id="' + getPlayerRowId(id) + '" class="player">'
                              + '<td class="playerName">Anonymous</td>'
-                             + '<td></td></tr>'));
+                             + '<td><span class="score">0</span></td></tr>'));
   };
 
   function createLetterSelector(x, y) {

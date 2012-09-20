@@ -30,11 +30,12 @@ define(['lib/Game',
 
     describe('when the server sends a score update', function () {
       beforeEach(function () {
-        serverProxy.trigger('score', 55);
+        var data = {id: 'a player', points: 55};
+        serverProxy.trigger('score', data);
       });
 
       it('should update the UI score', function () {
-        ui.setScore.should.have.been.calledWith(55);
+        ui.setScore.should.have.been.calledWith(data);
       });
     });
 

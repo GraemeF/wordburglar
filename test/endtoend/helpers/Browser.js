@@ -1,5 +1,6 @@
 var Zombie = require('zombie');
 var _ = require('underscore');
+var util = require('util');
 
 var hasClass = function (element, cls) {
   return (' ' + element.className + ' ').indexOf(' ' + cls + ' ') > -1;
@@ -64,8 +65,23 @@ Browser.prototype.isLetterUsedInAWord = function (letterLoc) {
                   'usedInAWord');
 };
 
-Browser.prototype.getScore = function () {
-  return parseInt(this.zombie.text('span#score'), 10);
+Browser.prototype.getScore = function (context) {
+  var text = this.zombie.text('span.score', context);
+  if (text === '') {
+    throw new Error('Could not find a score.');
+  }
+
+  return parseInt(text, 10);
+};
+
+Browser.prototype.getPlayerScore = function (name) {
+  var row = findPlayerRowByName(this.zombie, name);
+  if (row) {
+    return this.getScore(row);
+  }
+  else {
+    throw new Error('Could not find row for player "' + name + '" in ' + util.inspect(this.getPlayerNames()));
+  }
 };
 
 Browser.prototype.getPlayerNames = function () {
@@ -88,9 +104,16 @@ Browser.prototype.getTitle = function () {
   return this.zombie.text('title');
 };
 
+function findPlayerRowByName(zombie, name) {
+  return _.find(findPlayerRows(zombie), function (row) {
+    return zombie.text('.playerName', row) === name;
+  });
+}
+
 function findPlayerRows(zombie) {
   return zombie.queryAll('tr.player');
 }
+
 Browser.prototype.getNumberOfPlayers = function () {
   return findPlayerRows(this.zombie).length;
 };
