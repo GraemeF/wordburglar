@@ -19,12 +19,12 @@
   "author": "Graeme Foster <graemef@gmail.com>",
   "private": true,
   "devDependencies": {
-    "mocha": "~1.4.2",
+    "mocha": "~1.5.0",
     "sinon": "~1.4.2",
     "chai": "~1.2.0",
     "patience": "~0.2.0",
     "sinon-chai": "~2.1.2",
-    "zombie": "~1.4.1",
+    "zombie": "~2.0.0-alpha1",
     "jshint": "~0.9.0",
     "cover": "~0.2.8"
   },
