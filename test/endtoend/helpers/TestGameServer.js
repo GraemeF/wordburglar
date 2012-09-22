@@ -1,3 +1,4 @@
+var Browser = require('./Browser');
 var SequentialProducer = require('../../../lib/SequentialProducer');
 var serverFactory = require('../../../lib/serverFactory');
 var _ = require('underscore');
@@ -27,6 +28,10 @@ TestGameServer.prototype.stop = function (callback) {
 
 TestGameServer.prototype.uri = function () {
   return this.server.uri();
+};
+
+TestGameServer.prototype.createPlayer = function () {
+  return new Browser(this.uri());
 };
 
 module.exports = TestGameServer;
