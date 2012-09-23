@@ -43,7 +43,7 @@ define(['underscore',
 
   ServerProxy.prototype.connect = function () {
     var self = this;
-    this.socket = io.connect("", {
+    this.socket = io.connect("?playerToken=" + playerToken, {
       reconnect: false,
       "sync disconnect on unload": true
     });
