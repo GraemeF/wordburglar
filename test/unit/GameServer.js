@@ -1,7 +1,7 @@
 var GameServer = require('../../lib/GameServer');
 var events = require('events');
 
-describe('GameServer XXX', function () {
+describe('GameServer', function () {
   var server;
   var httpServer;
   var grid;
@@ -16,7 +16,11 @@ describe('GameServer XXX', function () {
     httpServer.listen = sinon.stub().callsArg(0);
     httpServer.emitToAllPlayers = sinon.stub();
 
-    players = [];
+    players = {
+      findByToken: sinon.stub(),
+      findById: sinon.stub(),
+      addNew: sinon.stub()
+    };
     grid = new events.EventEmitter();
     grid.fill = sinon.stub();
     grid.getLetters = sinon.stub();
@@ -41,7 +45,7 @@ describe('GameServer XXX', function () {
     });
 
     it('should have no players', function () {
-      players.should.be.empty;
+      players.addNew.should.not.have.been.called;
     });
 
     describe('and a letter is used', function () {
@@ -68,7 +72,7 @@ describe('GameServer XXX', function () {
       });
 
       it('should add a player', function () {
-        players.should.contain(player);
+        players.addNew.should.have.been.calledWith(player);
       });
 
       it('should broadcast the new player', function () {

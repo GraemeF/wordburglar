@@ -1,7 +1,7 @@
 var TestGameServer = require('./helpers/TestGameServer');
 var _ = require('underscore');
 
-describe.only('Player identity', function () {
+describe('Player identity', function () {
   var server;
 
   beforeEach(function (done) {
