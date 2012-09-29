@@ -61,7 +61,7 @@ define(['underscore',
       self.trigger('nameChanged', data);
     });
 
-    this.socket.on('newPlayer', function (data) {
+    this.socket.on('playerConnected', function (data) {
       self.trigger('newPlayer', data);
     });
   };

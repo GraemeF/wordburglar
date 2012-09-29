@@ -1,7 +1,7 @@
 var GameServer = require('../../lib/GameServer');
 var events = require('events');
 
-describe('GameServer', function () {
+describe.only('GameServer', function () {
   var server;
   var httpServer;
   var grid;
@@ -44,6 +44,23 @@ describe('GameServer', function () {
       grid.fill.should.have.been.called;
     });
 
+    describe('and a known player connects', function () {
+      var player;
+
+      beforeEach(function () {
+        players.findById.returns({});
+        player = {
+          token: 'token 1',
+          socket: new events.EventEmitter()
+        };
+        httpServer.emit('playerConnected', player);
+      });
+
+      it('should not announce a new player', function () {
+        httpServer.emitToAllPlayers.should.not.have.been.called();
+      });
+    });
+
     it('should have no players', function () {
       players.addNew.should.not.have.been.called;
     });
@@ -67,8 +84,11 @@ describe('GameServer', function () {
 
       beforeEach(function () {
         idFactory.returns(id);
-        player = new events.EventEmitter();
-        httpServer.emit('newPlayer', player);
+        player = {
+          token: 'token 1',
+          socket: new events.EventEmitter()
+        };
+        httpServer.emit('playerConnected', player);
       });
 
       it('should add a player', function () {
@@ -77,7 +97,7 @@ describe('GameServer', function () {
 
       it('should broadcast the new player', function () {
         httpServer.emitToAllPlayers
-          .should.have.been.calledWith('newPlayer', id);
+          .should.have.been.calledWith('playerConnected', id);
       });
 
       describe('and a letter in the grid is used', function () {
@@ -98,12 +118,15 @@ describe('GameServer', function () {
           var newPlayer = sinon.stub();
 
           beforeEach(function () {
-            player2 = new events.EventEmitter();
-            player2.on('letterUsed', function (letterPos) {
+            player2 = {
+              token: 'token 2',
+              socket: new events.EventEmitter()
+            };
+            player2.socket.on('letterUsed', function (letterPos) {
               usedLetterPos2 = letterPos;
             });
-            player2.on('newPlayer', newPlayer);
-            httpServer.emit('newPlayer', player2);
+            player2.socket.on('playerConnected', newPlayer);
+            httpServer.emit('playerConnected', player2);
           });
 
           it('should tell the player that the letter is used', function () {
@@ -118,7 +141,7 @@ describe('GameServer', function () {
 
       describe('and the player sets their name', function () {
         beforeEach(function () {
-          player.emit('setName', 'Bob');
+          player.socket.emit('setName', 'Bob');
         });
 
         it('should tell the player', function () {
@@ -138,7 +161,7 @@ describe('GameServer', function () {
 
         describe('and the player marks the line', function () {
           beforeEach(function () {
-            player.emit('mark', line);
+            player.socket.emit('mark', line);
           });
 
           it('should award a point', function () {
@@ -160,7 +183,7 @@ describe('GameServer', function () {
 
             describe('and the player marks the other line', function () {
               beforeEach(function () {
-                player.emit('mark', line);
+                player.socket.emit('mark', line);
               });
 
               it('should award another point', function () {
@@ -176,11 +199,11 @@ describe('GameServer', function () {
         var scoreChange;
 
         beforeEach(function () {
-          player.on('score', function (data) {
+          player.socket.on('score', function (data) {
             scoreChange = data;
           });
 
-          player.emit('mark', 'some other line');
+          player.socket.emit('mark', 'some other line');
         });
 
         it('should not award a point', function () {
