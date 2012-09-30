@@ -1,7 +1,7 @@
 var GameServer = require('../../lib/GameServer');
 var events = require('events');
 
-describe.only('GameServer', function () {
+describe('GameServer', function () {
   var server;
   var httpServer;
   var grid;
@@ -48,7 +48,7 @@ describe.only('GameServer', function () {
       var player;
 
       beforeEach(function () {
-        players.findById.returns({});
+        players.findByToken.returns(true);
         player = {
           token: 'token 1',
           socket: new events.EventEmitter()
@@ -57,7 +57,7 @@ describe.only('GameServer', function () {
       });
 
       it('should not announce a new player', function () {
-        httpServer.emitToAllPlayers.should.not.have.been.called();
+        httpServer.emitToAllPlayers.should.not.have.been.called;
       });
     });
 
