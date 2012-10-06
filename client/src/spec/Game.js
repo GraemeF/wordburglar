@@ -16,6 +16,7 @@ define(['lib/Game',
       _.extend(serverProxy, backbone.Events);
 
       ui = {
+        removePlayer: sinon.stub(),
         addPlayer: sinon.stub(),
         setScore: sinon.stub(),
         setPlayerName: sinon.stub(),
@@ -29,8 +30,9 @@ define(['lib/Game',
     });
 
     describe('when the server sends a score update', function () {
+      var data = {id: 'a player', points: 55};
+
       beforeEach(function () {
-        var data = {id: 'a player', points: 55};
         serverProxy.trigger('score', data);
       });
 
@@ -49,13 +51,23 @@ define(['lib/Game',
       });
     });
 
-    describe('when the server sends a new player', function () {
+    describe('when the server sends an added player', function () {
       beforeEach(function () {
-        serverProxy.trigger('newPlayer', 'player id');
+        serverProxy.trigger('addPlayer', 'player id');
       });
 
       it('should add the player to the UI', function () {
         ui.addPlayer.should.have.been.calledWith('player id');
+      });
+    });
+
+    describe('when the server sends a removed player', function () {
+      beforeEach(function () {
+        serverProxy.trigger('removePlayer', 'player id');
+      });
+
+      it('should remove the player from the UI', function () {
+        ui.removePlayer.should.have.been.calledWith('player id');
       });
     });
 

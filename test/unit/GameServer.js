@@ -44,11 +44,25 @@ describe('GameServer', function () {
       grid.fill.should.have.been.called;
     });
 
-    describe('and a known player connects', function () {
-      var player;
+    describe('and a connected player disconnects', function () {
+      var disconnectingPlayerId = 'disconnecting player id';
 
       beforeEach(function () {
-        players.findByToken.returns(true);
+        players.findByToken.returns({id: disconnectingPlayerId});
+        httpServer.emit('playerDisconnected', {token: 'token'});
+      });
+
+      it('should tell the other players that the player disconnected', function () {
+        httpServer.emitToAllPlayers.should.have.been.calledWith('playerDisconnected', disconnectingPlayerId);
+      });
+    });
+
+    describe('and a known player connects', function () {
+      var player;
+      var knownPlayerId;
+
+      beforeEach(function () {
+        players.findByToken.returns({id: knownPlayerId});
         player = {
           token: 'token 1',
           socket: new events.EventEmitter()
@@ -58,6 +72,11 @@ describe('GameServer', function () {
 
       it('should not announce a new player', function () {
         httpServer.emitToAllPlayers.should.not.have.been.calledWith('playerAdded');
+      });
+
+      it('should broadcast that the player connected', function () {
+        httpServer.emitToAllPlayers
+          .should.have.been.calledWith('playerConnected', knownPlayerId);
       });
     });
 

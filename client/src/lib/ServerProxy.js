@@ -62,7 +62,11 @@ define(['underscore',
     });
 
     this.socket.on('playerConnected', function (data) {
-      self.trigger('newPlayer', data);
+      self.trigger('addPlayer', data);
+    });
+
+    this.socket.on('playerDisconnected', function (data) {
+      self.trigger('removePlayer', data);
     });
   };
 

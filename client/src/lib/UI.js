@@ -46,9 +46,18 @@ define(['jquery',
   };
 
   UI.prototype.addPlayer = function (id) {
-    $('#players').append($('<tr id="' + getPlayerRowId(id) + '" class="player">'
-                             + '<td class="playerName">Anonymous</td>'
-                             + '<td><span class="score">0</span></td></tr>'));
+    var existingPlayer = $('#' + getPlayerRowId(id));
+
+    if (existingPlayer.length > 0)
+      existingPlayer.show();
+    else
+      $('#players').append($('<tr id="' + getPlayerRowId(id) + '" class="player">'
+                               + '<td class="playerName">Anonymous</td>'
+                               + '<td><span class="score">0</span></td></tr>'));
+  };
+
+  UI.prototype.removePlayer = function (id) {
+    $('#' + getPlayerRowId(id)).hide();
   };
 
   function createLetterSelector(x, y) {

@@ -24,21 +24,39 @@ describe('Player identity', function () {
       player.leave(done);
     });
 
-    describe('leaves', function () {
-
+    describe('sets their name to Bob', function () {
       beforeEach(function (done) {
-        player.leave(done);
+        player.setPlayerName('Bob', done);
       });
 
-      describe('and rejoins the game', function () {
+      it('should show player named Bob', function (done) {
+        soon(function () {
+          player.getPlayerNames().should.contain('Bob');
+        }, this, done);
+      });
+
+      describe('leaves', function () {
+
         beforeEach(function (done) {
-          player.join(done);
+          player.leave(done);
         });
 
-        it('should show one player', function (done) {
-          soon(function () {
-            player.getNumberOfPlayers().should.equal(1);
-          }, this, done);
+        describe('and rejoins the game', function () {
+          beforeEach(function (done) {
+            player.join(done);
+          });
+
+          it('should show one player', function (done) {
+            soon(function () {
+              player.getNumberOfPlayers().should.equal(1);
+            }, this, done);
+          });
+
+          it('should show player named Bob', function (done) {
+            soon(function () {
+              player.getPlayerNames().should.contain('Bob');
+            }, this, done);
+          });
         });
       });
 
