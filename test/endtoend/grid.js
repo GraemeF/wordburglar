@@ -1,5 +1,4 @@
 var TestGameServer = require('./helpers/TestGameServer');
-var _ = require('underscore');
 
 describe('Grid', function () {
   var server;
@@ -60,13 +59,13 @@ describe('Grid', function () {
         }, this, done);
       });
 
-      it('should highlight F', letterShouldBeUsed({x: 5, y: 0}));
+      it('should highlight F', player1ShouldSeeUsedLetter({x: 5, y: 0}));
 
-      it('should highlight E', letterShouldBeUsed({x: 4, y: 0}));
+      it('should highlight E', player1ShouldSeeUsedLetter({x: 4, y: 0}));
 
-      it('should highlight D', letterShouldBeUsed({x: 3, y: 0}));
+      it('should highlight D', player1ShouldSeeUsedLetter({x: 3, y: 0}));
 
-      function letterShouldBeUsed(letterPos) {
+      function player1ShouldSeeUsedLetter(letterPos) {
         return function (done) {
           soon(function () {
             player.isLetterUsedInAWord(letterPos).should.be.ok;
@@ -86,13 +85,13 @@ describe('Grid', function () {
           player2.leave(done);
         });
 
-        it('should highlight F', letterShouldBeUsed({x: 5, y: 0}));
+        it('should highlight F', player2ShouldSeeUsedLetter({x: 5, y: 0}));
 
-        it('should highlight E', letterShouldBeUsed({x: 4, y: 0}));
+        it('should highlight E', player2ShouldSeeUsedLetter({x: 4, y: 0}));
 
-        it('should highlight D', letterShouldBeUsed({x: 3, y: 0}));
+        it('should highlight D', player2ShouldSeeUsedLetter({x: 3, y: 0}));
 
-        function letterShouldBeUsed(letterPos) {
+        function player2ShouldSeeUsedLetter(letterPos) {
           return function (done) {
             soon(function () {
               player2.isLetterUsedInAWord(letterPos).should.be.ok;

@@ -1,5 +1,4 @@
 var TestGameServer = require('./helpers/TestGameServer');
-var _ = require('underscore');
 
 describe('Multiplayer', function () {
   var server;

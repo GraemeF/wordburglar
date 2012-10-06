@@ -1,5 +1,4 @@
 var TestGameServer = require('./helpers/TestGameServer');
-var _ = require('underscore');
 
 describe('Player identity', function () {
   var server;
@@ -47,6 +46,7 @@ describe('Player identity', function () {
         player.getScore().should.equal(0);
       });
     });
+
     it('should show my score is 0', function () {
       player.getScore().should.equal(0);
     });
