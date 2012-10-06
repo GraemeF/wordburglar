@@ -6,6 +6,7 @@ describe('GameServer', function () {
   var httpServer;
   var grid;
   var players;
+  var scoreboard;
   var isWord;
   var idFactory;
 
@@ -21,6 +22,10 @@ describe('GameServer', function () {
       findById: sinon.stub(),
       addNew: sinon.stub()
     };
+
+    scoreboard = new events.EventEmitter();
+    scoreboard.awardPoints = sinon.stub();
+
     grid = new events.EventEmitter();
     grid.fill = sinon.stub();
     grid.getLetters = sinon.stub();
@@ -28,7 +33,7 @@ describe('GameServer', function () {
 
     isWord = sinon.stub().returns(false);
 
-    server = new GameServer(httpServer, grid, isWord, players, idFactory);
+    server = new GameServer(httpServer, grid, isWord, players, scoreboard, idFactory);
   });
 
   describe('when started', function () {
@@ -94,6 +99,19 @@ describe('GameServer', function () {
       it('should tell all players that the letter is used', function () {
         httpServer.emitToAllPlayers
           .should.have.been.calledWith('letterUsed', letterPos);
+      });
+    });
+
+    describe('and a score changes', function () {
+      var newScore = 'new score info';
+
+      beforeEach(function () {
+        scoreboard.emit('scoreChanged', newScore);
+      });
+
+      it('should tell all players that a score has changed', function () {
+        httpServer.emitToAllPlayers
+          .should.have.been.calledWith('score', newScore);
       });
     });
 
@@ -189,8 +207,8 @@ describe('GameServer', function () {
           });
 
           it('should award a point', function () {
-            httpServer.emitToAllPlayers
-              .should.have.been.calledWith('score', {id: id, points: 1});
+            scoreboard.awardPoints
+              .should.have.been.calledWith(id, 1);
           });
 
           it('should mark the line as used', function () {
@@ -211,8 +229,8 @@ describe('GameServer', function () {
               });
 
               it('should award another point', function () {
-                httpServer.emitToAllPlayers
-                  .should.have.been.calledWith('score', {id: id, points: 2});
+                scoreboard.awardPoints
+                  .should.have.been.calledTwice;
               });
             });
           });
