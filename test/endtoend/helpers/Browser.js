@@ -79,7 +79,7 @@ Browser.prototype.isLetterUsedInAWord = function (letterLoc) {
 Browser.prototype.getScore = function (context) {
   var text = this.zombie.text('span.score', context);
   if (text === '') {
-    throw new Error('Could not find a score.');
+    throw new Error('Could not find a score in ' + context.outerHTML);
   }
 
   return parseInt(text, 10);

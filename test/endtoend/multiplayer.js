@@ -87,7 +87,37 @@ describe('Multiplayer', function () {
               player2.getPlayerScore('Bob').should.equal(1);
             }, this, done);
           });
-        })
+
+          describe('and player 1 disconnects', function () {
+            beforeEach(function (done) {
+              player1.leave(done);
+            });
+
+            describe('and reconnects', function () {
+              beforeEach(function (done) {
+                player1.join(done);
+              });
+
+              it('should show player1 has a point', function (done) {
+                soon(function () {
+                  player1.getPlayerScore('Bob').should.equal(1);
+                }, this, done);
+              });
+
+              describe('and player 1 scores another point', function () {
+                beforeEach(function (done) {
+                  player1.mark({start: {x: 5, y: 0}, end: {x: 3, y: 0}}, done);
+                });
+
+                it('should show player1 has 2 points', function (done) {
+                  soon(function () {
+                    player1.getPlayerScore('Bob').should.equal(2);
+                  }, this, done);
+                });
+              });
+            });
+          });
+        });
       });
     });
   });
