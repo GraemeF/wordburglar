@@ -11,6 +11,17 @@ var Browser = function (uri) {
   this.zombie = new Zombie();
 };
 
+Browser.prototype.join = function (callback) {
+  var self = this;
+  this.navigateHome(function () {
+    self.waitUntilConnected(callback);
+  });
+};
+
+Browser.prototype.leave = function (callback) {
+  this.close(callback);
+};
+
 Browser.prototype.close = function (done) {
   this.zombie.evaluate('window.disconnect()');
 

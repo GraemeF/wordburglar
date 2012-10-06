@@ -11,8 +11,12 @@ define(function () {
       self.ui.setScore(scoreChange);
     });
 
-    this.serverProxy.on('newPlayer', function (id) {
+    this.serverProxy.on('addPlayer', function (id) {
       self.ui.addPlayer(id);
+    });
+
+    this.serverProxy.on('removePlayer', function (id) {
+      self.ui.removePlayer(id);
     });
 
     this.serverProxy.on('nameChanged', function (newName) {

@@ -43,7 +43,7 @@ define(['underscore',
 
   ServerProxy.prototype.connect = function () {
     var self = this;
-    this.socket = io.connect("", {
+    this.socket = io.connect("?playerToken=" + playerToken, {
       reconnect: false,
       "sync disconnect on unload": true
     });
@@ -61,8 +61,12 @@ define(['underscore',
       self.trigger('nameChanged', data);
     });
 
-    this.socket.on('newPlayer', function (data) {
-      self.trigger('newPlayer', data);
+    this.socket.on('playerConnected', function (data) {
+      self.trigger('addPlayer', data);
+    });
+
+    this.socket.on('playerDisconnected', function (data) {
+      self.trigger('removePlayer', data);
     });
   };
 

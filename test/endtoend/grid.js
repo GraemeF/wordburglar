@@ -1,138 +1,114 @@
-var serverFactory = require('../../lib/serverFactory');
-var Browser = require('./helpers/Browser');
-var SequentialProducer = require('../../lib/SequentialProducer');
-var _ = require('underscore');
+var TestGameServer = require('./helpers/TestGameServer');
 
-var words = ['FED', 'HI'];
+describe('Grid', function () {
+  var server;
 
-describe('Given the dictionary allows ' + words, function () {
-  describe('and a new server has started with a fixed grid', function () {
-    var server;
+  beforeEach(function (done) {
+    server = new TestGameServer();
+    server.start(done);
+  });
+
+  afterEach(function (done) {
+    server.stop(done);
+  });
+
+  describe('a player joins', function () {
+    var player;
 
     beforeEach(function (done) {
-      server = serverFactory(
-        { port: 0,
-          grid: { width: 26,
-            height: 32,
-            letterProducer: new SequentialProducer().next
-          },
-          dictionary: { isWord: function (word) {
-            return _.indexOf(words, word) !== -1;
-          }}
-        });
-      server.start(done);
+      player = server.createPlayer();
+      player.join(done);
     });
 
     afterEach(function (done) {
-      server.stop(done);
+      player.leave(done);
     });
 
-    describe('when I visit the home page', function () {
-      var browser;
+    describe('the grid', function () {
+      it('should contain letters', function () {
+        player.getLetter(0, 0).should.equal('A');
+        player.getLetter(25, 31).should.equal('Z');
+      });
+    });
 
+    it('should show my score is 0', function () {
+      player.getScore().should.equal(0);
+    });
+
+    describe('I mark ABC', function () {
       beforeEach(function (done) {
-        browser = new Browser(server.uri());
-        browser.navigateHome(function () {
-          browser.waitUntilConnected(done);
+        player.mark({start: {x: 0, y: 0}, end: {x: 2, y: 0}}, done);
+      });
+
+      it('should not increase my score', function (done) {
+        player.wait(function () {
+          player.getScore().should.equal(0);
+          done();
         });
       });
+    });
 
-      afterEach(function (done) {
-        browser.close(done);
+    describe('I mark FED', function () {
+      beforeEach(function (done) {
+        player.mark({start: {x: 5, y: 0}, end: {x: 3, y: 0}}, done);
       });
 
-      describe('the grid', function () {
-        it('should contain letters', function () {
-          browser.getLetter(0, 0).should.equal('A');
-          browser.getLetter(25, 31).should.equal('Z');
-        });
+      it('should increase my score', function (done) {
+        soon(function () {
+          player.getScore().should.equal(1);
+        }, this, done);
       });
 
-      it('should have be titled Word Burglar', function () {
-        browser.getTitle().should.equal('Word Burglar');
-      });
+      it('should highlight F', player1ShouldSeeUsedLetter({x: 5, y: 0}));
 
-      it('should show my score is 0', function () {
-        browser.getScore().should.equal(0);
-      });
+      it('should highlight E', player1ShouldSeeUsedLetter({x: 4, y: 0}));
 
-      describe('I mark ABC', function () {
+      it('should highlight D', player1ShouldSeeUsedLetter({x: 3, y: 0}));
+
+      function player1ShouldSeeUsedLetter(letterPos) {
+        return function (done) {
+          soon(function () {
+            player.isLetterUsedInAWord(letterPos).should.be.ok;
+          }, this, done);
+        };
+      }
+
+      describe('and another player joins', function () {
+        var player2;
+
         beforeEach(function (done) {
-          browser.mark({start: {x: 0, y: 0}, end: {x: 2, y: 0}}, done);
+          player2 = server.createPlayer();
+          player2.join(done);
         });
 
-        it('should not increase my score', function (done) {
-          browser.wait(function () {
-            browser.getScore().should.equal(0);
-            done();
-          });
+        afterEach(function (done) {
+          player2.leave(done);
         });
+
+        it('should highlight F', player2ShouldSeeUsedLetter({x: 5, y: 0}));
+
+        it('should highlight E', player2ShouldSeeUsedLetter({x: 4, y: 0}));
+
+        it('should highlight D', player2ShouldSeeUsedLetter({x: 3, y: 0}));
+
+        function player2ShouldSeeUsedLetter(letterPos) {
+          return function (done) {
+            soon(function () {
+              player2.isLetterUsedInAWord(letterPos).should.be.ok;
+            }, this, done);
+          };
+        }
       });
 
-      describe('I mark FED', function () {
+      describe('and I mark HI', function () {
         beforeEach(function (done) {
-          browser.mark({start: {x: 5, y: 0}, end: {x: 3, y: 0}}, done);
+          player.mark({start: {x: 7, y: 0}, end: {x: 8, y: 0}}, done);
         });
 
         it('should increase my score', function (done) {
           soon(function () {
-            browser.getScore().should.equal(1);
+            player.getScore().should.equal(2);
           }, this, done);
-        });
-
-        it('should highlight F', letterShouldBeUsed({x: 5, y: 0}));
-
-        it('should highlight E', letterShouldBeUsed({x: 4, y: 0}));
-
-        it('should highlight D', letterShouldBeUsed({x: 3, y: 0}));
-
-        function letterShouldBeUsed(letterPos) {
-          return function (done) {
-            soon(function () {
-              browser.isLetterUsedInAWord(letterPos).should.be.ok;
-            }, this, done);
-          };
-        }
-
-        describe('and another player joins', function () {
-          var browser2;
-
-          beforeEach(function (done) {
-            browser2 = new Browser(server.uri());
-            browser2.navigateHome(function () {
-              browser2.waitUntilConnected(done);
-            });
-          });
-
-          afterEach(function (done) {
-            browser2.close(done);
-          });
-
-          it('should highlight F', letterShouldBeUsed({x: 5, y: 0}));
-
-          it('should highlight E', letterShouldBeUsed({x: 4, y: 0}));
-
-          it('should highlight D', letterShouldBeUsed({x: 3, y: 0}));
-
-          function letterShouldBeUsed(letterPos) {
-            return function (done) {
-              soon(function () {
-                browser2.isLetterUsedInAWord(letterPos).should.be.ok;
-              }, this, done);
-            };
-          }
-        });
-
-        describe('and I mark HI', function () {
-          beforeEach(function (done) {
-            browser.mark({start: {x: 7, y: 0}, end: {x: 8, y: 0}}, done);
-          });
-
-          it('should increase my score', function (done) {
-            soon(function () {
-              browser.getScore().should.equal(2);
-            }, this, done);
-          });
         });
       });
     });

@@ -43,5 +43,14 @@ html
 
     script(src="/assets/require.js")
     script
+      playerToken = '#{playerToken}';
+    script
       require(['main'], function(main) {
       });
+
+    if googleAnalytics
+      script
+        var _gaq=[['_setAccount','UA-1814201-3'],['_trackPageview']];
+        (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+        g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+        s.parentNode.insertBefore(g,s)}(document,'script'));
