@@ -25,18 +25,28 @@ describe('Player identity', function () {
       player.leave(done);
     });
 
-    describe('and reloads the game', function () {
+    describe('leaves', function () {
+
       beforeEach(function (done) {
-        player.join(done);
+        player.leave(done);
       });
 
-      it('should show one player', function (done) {
-        soon(function () {
-          player.getNumberOfPlayers().should.equal(1);
-        }, this, done);
+      describe('and rejoins the game', function () {
+        beforeEach(function (done) {
+          player.join(done);
+        });
+
+        it('should show one player', function (done) {
+          soon(function () {
+            player.getNumberOfPlayers().should.equal(1);
+          }, this, done);
+        });
+      });
+
+      it('should show my score is 0', function () {
+        player.getScore().should.equal(0);
       });
     });
-
     it('should show my score is 0', function () {
       player.getScore().should.equal(0);
     });

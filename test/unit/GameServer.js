@@ -57,7 +57,7 @@ describe('GameServer', function () {
       });
 
       it('should not announce a new player', function () {
-        httpServer.emitToAllPlayers.should.not.have.been.called;
+        httpServer.emitToAllPlayers.should.not.have.been.calledWith('playerAdded');
       });
     });
 
@@ -95,7 +95,12 @@ describe('GameServer', function () {
         players.addNew.should.have.been.calledWith(player);
       });
 
-      it('should broadcast the new player', function () {
+      it('should broadcast that the new player was added', function () {
+        httpServer.emitToAllPlayers
+          .should.have.been.calledWith('playerAdded', id);
+      });
+
+      it('should broadcast that the new player connected', function () {
         httpServer.emitToAllPlayers
           .should.have.been.calledWith('playerConnected', id);
       });
