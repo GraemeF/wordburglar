@@ -71,18 +71,18 @@ describe('Multiplayer', function () {
           }, this, done);
         });
 
-        describe('and player 1 scores a point', function () {
+        describe('and player 1 scores points', function () {
           beforeEach(function (done) {
             player1.mark({start: {x: 5, y: 0}, end: {x: 3, y: 0}}, done);
           });
 
-          it('should show player 1 that they have scored a point', function (done) {
+          it('should show player 1 that they have scored points', function (done) {
             soon(function () {
               player1.getPlayerScore('Bob').should.be.greaterThan(0);
             }, this, done);
           });
 
-          it('should show player 2 that player 1 has scored a point', function (done) {
+          it('should show player 2 that player 1 has scored points', function (done) {
             soon(function () {
               player2.getPlayerScore('Bob').should.be.greaterThan(0);
             }, this, done);
@@ -98,13 +98,13 @@ describe('Multiplayer', function () {
                 player1.join(done);
               });
 
-              it('should show player1 has a point', function (done) {
+              it('should show player1 has points', function (done) {
                 soon(function () {
                   player1.getPlayerScore('Bob').should.be.greaterThan(0);
                 }, this, done);
               });
 
-              describe('and player 1 scores another point', function () {
+              describe('and player 1 scores again', function () {
                 var player1Score;
 
                 beforeEach(function (done) {
@@ -112,7 +112,7 @@ describe('Multiplayer', function () {
                   player1.mark({start: {x: 5, y: 0}, end: {x: 3, y: 0}}, done);
                 });
 
-                it('should show player1 has 2 points', function (done) {
+                it('should show player1 has more points', function (done) {
                   soon(function () {
                     player1.getPlayerScore('Bob').should.be.greaterThan(player1Score);
                   }, this, done);
