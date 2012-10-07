@@ -1,17 +1,24 @@
-div.letter {
-    font-family: Consolas, "Courier New", monospace;
-    font-size: large;
-    border-radius: 3px;
+td.letter {
     width: 20px;
     height: 20px;
-    display: block;
+    border-radius: 10px;
+    font-size: 15px;
+    color: #000;
+    line-height: 20px;
     text-align: center;
+    background: #f6f6f6
+}
+
+td.letter:hover {
+    color: #ccc;
+    text-decoration: none;
+    background: #333
 }
 
 td.startOfLine {
-    background-color: #add8e6;
+    background: #ffa07a;
 }
 
 td.usedInAWord {
-    background-color: #90ee90;
+    background: #90ee90;
 }
