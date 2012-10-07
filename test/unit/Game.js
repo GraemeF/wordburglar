@@ -36,7 +36,7 @@ describe('Game', function () {
 
       it('should award a point', function () {
         scoreboard.awardPoints
-          .should.have.been.calledWith(playerId, 1);
+          .should.have.been.calledWith(playerId, 5);
       });
 
       it('should mark the line as used', function () {
