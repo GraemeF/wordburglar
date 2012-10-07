@@ -55,7 +55,7 @@ describe('Grid', function () {
 
       it('should increase my score', function (done) {
         soon(function () {
-          player.getScore().should.equal(1);
+          player.getScore().should.be.greaterThan(0);
         }, this, done);
       });
 
@@ -101,13 +101,16 @@ describe('Grid', function () {
       });
 
       describe('and I mark HI', function () {
+        var scoreBeforeSecondWord;
+
         beforeEach(function (done) {
+          scoreBeforeSecondWord = player.getScore();
           player.mark({start: {x: 7, y: 0}, end: {x: 8, y: 0}}, done);
         });
 
         it('should increase my score', function (done) {
           soon(function () {
-            player.getScore().should.equal(2);
+            player.getScore().should.be.greaterThan(scoreBeforeSecondWord);
           }, this, done);
         });
       });

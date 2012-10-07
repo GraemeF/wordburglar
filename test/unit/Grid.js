@@ -10,11 +10,13 @@ describe('A 5x4 Grid with a sequential letter producer', function () {
       var letters;
 
       beforeEach(function () {
-        letters = grid.getLetters(line);
+        letters = _.map(grid.getLetters(line), function (l) {
+          return l.letter;
+        });
       });
 
       it('should return ' + expected, function () {
-        letters.should.equal(expected);
+        letters.join('').should.equal(expected);
       });
     };
   }
@@ -45,11 +47,11 @@ describe('A 5x4 Grid with a sequential letter producer', function () {
     });
 
     it('should contain G at 1,1', function () {
-      grid.getLetter(1, 1).should.equal('G');
+      grid.getLetter(1, 1).letter.should.equal('G');
     });
 
     it('should contain M at 2,2', function () {
-      grid.getLetter(2, 2).should.equal('M');
+      grid.getLetter(2, 2).letter.should.equal('M');
     });
 
     it('should contain 4 rows', function () {

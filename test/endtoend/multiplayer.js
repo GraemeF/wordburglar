@@ -78,13 +78,13 @@ describe('Multiplayer', function () {
 
           it('should show player 1 that they have scored a point', function (done) {
             soon(function () {
-              player1.getPlayerScore('Bob').should.equal(1);
+              player1.getPlayerScore('Bob').should.be.greaterThan(0);
             }, this, done);
           });
 
           it('should show player 2 that player 1 has scored a point', function (done) {
             soon(function () {
-              player2.getPlayerScore('Bob').should.equal(1);
+              player2.getPlayerScore('Bob').should.be.greaterThan(0);
             }, this, done);
           });
 
@@ -100,18 +100,21 @@ describe('Multiplayer', function () {
 
               it('should show player1 has a point', function (done) {
                 soon(function () {
-                  player1.getPlayerScore('Bob').should.equal(1);
+                  player1.getPlayerScore('Bob').should.be.greaterThan(0);
                 }, this, done);
               });
 
               describe('and player 1 scores another point', function () {
+                var player1Score;
+
                 beforeEach(function (done) {
+                  player1Score = player1.getPlayerScore('Bob');
                   player1.mark({start: {x: 5, y: 0}, end: {x: 3, y: 0}}, done);
                 });
 
                 it('should show player1 has 2 points', function (done) {
                   soon(function () {
-                    player1.getPlayerScore('Bob').should.equal(2);
+                    player1.getPlayerScore('Bob').should.be.greaterThan(player1Score);
                   }, this, done);
                 });
               });
