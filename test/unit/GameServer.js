@@ -7,7 +7,7 @@ describe('GameServer', function () {
   var grid;
   var players;
   var scoreboard;
-  var isWord;
+  var game;
   var idFactory;
 
   beforeEach(function () {
@@ -31,9 +31,9 @@ describe('GameServer', function () {
     grid.getLetters = sinon.stub();
     grid.markUsed = sinon.stub();
 
-    isWord = sinon.stub().returns(false);
+    game = {markLine: sinon.stub()};
 
-    server = new GameServer(httpServer, grid, isWord, players, scoreboard, idFactory);
+    server = new GameServer(httpServer, grid, players, scoreboard, game, idFactory);
   });
 
   describe('when started', function () {
@@ -193,47 +193,15 @@ describe('GameServer', function () {
         });
       });
 
-      describe('and the grid has a word at a particular line', function () {
-        const line = 'line of HELLO';
+      describe('and the player marks a line', function () {
+        var line = 'a line';
 
         beforeEach(function () {
-          grid.getLetters.withArgs(line).returns('HELLO');
-          isWord.withArgs('HELLO').returns(true);
+          player.socket.emit('mark', line);
         });
 
-        describe('and the player marks the line', function () {
-          beforeEach(function () {
-            player.socket.emit('mark', line);
-          });
-
-          it('should award a point', function () {
-            scoreboard.awardPoints
-              .should.have.been.calledWith(id, 1);
-          });
-
-          it('should mark the line as used', function () {
-            grid.markUsed.should.have.been.calledWith(line);
-          });
-
-          describe('and the grid has another word at a particular line', function () {
-            const line = 'line of WORLD';
-
-            beforeEach(function () {
-              grid.getLetters.withArgs(line).returns('WORLD');
-              isWord.withArgs('WORLD').returns(true);
-            });
-
-            describe('and the player marks the other line', function () {
-              beforeEach(function () {
-                player.socket.emit('mark', line);
-              });
-
-              it('should award another point', function () {
-                scoreboard.awardPoints
-                  .should.have.been.calledTwice;
-              });
-            });
-          });
+        it('should tell the game that the line was marked', function () {
+          game.markLine.should.have.been.calledWith(player.id, line);
         });
       });
 
