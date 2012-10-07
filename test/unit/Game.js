@@ -34,8 +34,7 @@ describe('Game', function () {
     game = new Game(grid, scoreboard, isWord);
   });
 
-  describe('and the grid has an unused 5 letter word', function () {
-    const line = 'line of HELLO';
+  describe('and the grid has an unused HELLO', function () {
 
     beforeEach(function () {
       grid.getLetters.withArgs(line).returns(unusedLetters('HELLO'));
@@ -48,14 +47,14 @@ describe('Game', function () {
         game.markLine(playerId, line);
       });
 
-      it('should award 5 points', function () {
+      it('should award 8 points', function () {
         scoreboard.awardPoints
-          .should.have.been.calledWith(playerId, 5);
+          .should.have.been.calledWith(playerId, 8);
       });
     });
   });
 
-  describe('and the grid has a used 5 letter word', function () {
+  describe('and the grid has a used HELLO', function () {
     beforeEach(function () {
       grid.getLetters.withArgs(line).returns(usedLetters('HELLO'));
       isWord.withArgs('HELLO').returns(true);
