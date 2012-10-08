@@ -10,13 +10,13 @@ td.letter {
 }
 
 td.letter:hover {
-    color: #ccc;
+    font-weight: bolder;
     text-decoration: none;
-    background: #333
 }
 
 td.startOfLine {
-    background: #ffa07a;
+    background: #000;
+    color: #f6f6f6
 }
 
 td.ownedByPlayer_1 {
