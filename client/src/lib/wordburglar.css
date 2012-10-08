@@ -19,6 +19,26 @@ td.startOfLine {
     background: #ffa07a;
 }
 
-td.usedInAWord {
+td.ownedByPlayer_1 {
     background: #90ee90;
+}
+
+td.ownedByPlayer_2 {
+    background: #ee9090;
+}
+
+td.ownedByPlayer_3 {
+    background: #9090ee;
+}
+
+td.ownedByPlayer_4 {
+    background: #ee90ee;
+}
+
+td.ownedByPlayer_5 {
+    background: #90eeee;
+}
+
+td.ownedByPlayer_6 {
+    background: #eeee90;
 }

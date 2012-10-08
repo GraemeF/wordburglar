@@ -70,7 +70,7 @@ define(['jquery',
   UI.prototype.setLetterUsed = function (usage) {
     console.log('letter used:', usage);
     $(createLetterSelector(usage.location.x, usage.location.y))
-      .addClass('usedInAWordBy_' + usage.player)
+      .addClass('ownedByPlayer_' + usage.player)
       .addClass('usedInAWord');
   };
 

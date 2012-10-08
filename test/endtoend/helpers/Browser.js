@@ -71,14 +71,15 @@ Browser.prototype.getLetter = function (x, y) {
 };
 
 Browser.prototype.getPlayerOwningLetter = function (letterLoc) {
+  const prefix = 'ownedByPlayer_';
   var letter = this.zombie.query(createLetterSelector(letterLoc.x,
                                                       letterLoc.y));
 
   var cls = _.find(letter.className.split(' '), function (c) {
-    return c.indexOf('usedInAWordBy_') === 0;
+    return c.indexOf(prefix) === 0;
   });
 
-  return cls && cls.substr('usedInAWordBy_'.length);
+  return cls && cls.substr(prefix.length);
 };
 
 Browser.prototype.getScore = function (context) {
