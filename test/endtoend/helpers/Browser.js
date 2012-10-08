@@ -70,10 +70,15 @@ Browser.prototype.getLetter = function (x, y) {
   return this.zombie.text(createLetterSelector(x, y));
 };
 
-Browser.prototype.isLetterUsedInAWord = function (letterLoc) {
-  return hasClass(this.zombie.query(createLetterSelector(letterLoc.x,
-                                                         letterLoc.y)),
-                  'usedInAWord');
+Browser.prototype.getPlayerOwningLetter = function (letterLoc) {
+  var letter = this.zombie.query(createLetterSelector(letterLoc.x,
+                                                      letterLoc.y));
+
+  var cls = _.find(letter.className.split(' '), function (c) {
+    return c.indexOf('usedInAWordBy_') === 0;
+  });
+
+  return cls && cls.substr('usedInAWordBy_'.length);
 };
 
 Browser.prototype.getScore = function (context) {

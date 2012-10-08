@@ -68,7 +68,7 @@ describe('Grid', function () {
       function player1ShouldSeeUsedLetter(letterPos) {
         return function (done) {
           soon(function () {
-            player.isLetterUsedInAWord(letterPos).should.be.ok;
+            player.getPlayerOwningLetter(letterPos).should.equal('1');
           }, this, done);
         };
       }
@@ -94,7 +94,7 @@ describe('Grid', function () {
         function player2ShouldSeeUsedLetter(letterPos) {
           return function (done) {
             soon(function () {
-              player2.isLetterUsedInAWord(letterPos).should.be.ok;
+              player2.getPlayerOwningLetter(letterPos).should.equal('1');
             }, this, done);
           };
         }

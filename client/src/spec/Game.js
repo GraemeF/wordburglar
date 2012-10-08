@@ -103,11 +103,15 @@ define(['lib/Game',
 
     describe('when the server sends a used letter', function () {
       beforeEach(function () {
-        serverProxy.trigger('letterUsed', {x: 3, y: 4});
+        serverProxy.trigger('letterUsed',
+                            {location: {x: 3, y: 4},
+                              player: 'some player'});
       });
 
       it('should tell the UI to mark it as used', function () {
-        ui.setLetterUsed.should.have.been.calledWith({x: 3, y: 4});
+        ui.setLetterUsed.should.have.been
+          .calledWith({location: {x: 3, y: 4},
+                        player: 'some player'});
       });
     });
   });

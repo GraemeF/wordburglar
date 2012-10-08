@@ -67,8 +67,11 @@ define(['jquery',
       '> td:nth-child(' + (x + 1) + ')';
   }
 
-  UI.prototype.setLetterUsed = function (letterPos) {
-    $(createLetterSelector(letterPos.x, letterPos.y)).addClass('usedInAWord');
+  UI.prototype.setLetterUsed = function (usage) {
+    console.log('letter used:', usage);
+    $(createLetterSelector(usage.location.x, usage.location.y))
+      .addClass('usedInAWordBy_' + usage.player)
+      .addClass('usedInAWord');
   };
 
   UI.prototype.setConnectionStatus = function (newStatus) {
