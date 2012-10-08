@@ -53,7 +53,10 @@ define(['jquery',
     else
       $('#players').append($('<tr id="' + getPlayerRowId(id) + '" class="player">'
                                + '<td class="playerName">Anonymous</td>'
-                               + '<td><span class="score">0</span></td></tr>'));
+                               + '<td><span class="score ownedByPlayer_' + id +
+                               '">0</span></td></tr>'
+      ))
+      ;
   };
 
   UI.prototype.removePlayer = function (id) {
