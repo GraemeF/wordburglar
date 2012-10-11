@@ -68,6 +68,7 @@ describe('A 5x4 Grid with a sequential letter producer', function () {
 
     describe('when I mark the first 3 letters as used', function () {
       var lettersUsed;
+      var playerId = 'some player';
 
       beforeEach(function () {
         lettersUsed = [];
@@ -75,20 +76,24 @@ describe('A 5x4 Grid with a sequential letter producer', function () {
           lettersUsed.push(letterPos);
         });
 
-        grid.markUsed({ start: {x: 0, y: 0},
-                        end: {x: 3, y: 0} })
+        grid.markUnusedLettersUsed({ start: {x: 0, y: 0},
+                                     end: {x: 3, y: 0} }, playerId)
       });
 
+      function letterUsedByPlayer(location) {
+        return {location: location, player: playerId};
+      }
+
       it('should emit an event marking A as used by a word', function () {
-        lettersUsed[0].should.eql({x: 0, y: 0});
+        lettersUsed[0].should.eql(letterUsedByPlayer({x: 0, y: 0}));
       });
 
       it('should emit an event marking B as used by a word', function () {
-        lettersUsed[1].should.eql({x: 1, y: 0});
+        lettersUsed[1].should.eql(letterUsedByPlayer({x: 1, y: 0}));
       });
 
       it('should emit an event marking C as used by a word', function () {
-        lettersUsed[2].should.eql({x: 2, y: 0});
+        lettersUsed[2].should.eql(letterUsedByPlayer({x: 2, y: 0}));
       });
     });
 

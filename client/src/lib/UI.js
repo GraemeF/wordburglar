@@ -53,7 +53,10 @@ define(['jquery',
     else
       $('#players').append($('<tr id="' + getPlayerRowId(id) + '" class="player">'
                                + '<td class="playerName">Anonymous</td>'
-                               + '<td><span class="score">0</span></td></tr>'));
+                               + '<td><span class="score ownedByPlayer_' + id +
+                               '">0</span></td></tr>'
+      ))
+      ;
   };
 
   UI.prototype.removePlayer = function (id) {
@@ -67,8 +70,11 @@ define(['jquery',
       '> td:nth-child(' + (x + 1) + ')';
   }
 
-  UI.prototype.setLetterUsed = function (letterPos) {
-    $(createLetterSelector(letterPos.x, letterPos.y)).addClass('usedInAWord');
+  UI.prototype.setLetterUsed = function (usage) {
+    console.log('letter used:', usage);
+    $(createLetterSelector(usage.location.x, usage.location.y))
+      .addClass('ownedByPlayer_' + usage.player)
+      .addClass('usedInAWord');
   };
 
   UI.prototype.setConnectionStatus = function (newStatus) {

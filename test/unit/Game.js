@@ -28,7 +28,7 @@ describe('Game', function () {
 
     grid = new events.EventEmitter();
     grid.getLetters = sinon.stub();
-    grid.markUsed = sinon.stub();
+    grid.markUnusedLettersUsed = sinon.stub();
 
     isWord = sinon.stub().returns(false);
     game = new Game(grid, scoreboard, isWord);
@@ -50,6 +50,11 @@ describe('Game', function () {
       it('should award 8 points', function () {
         scoreboard.awardPoints
           .should.have.been.calledWith(playerId, 8);
+      });
+
+      it('should mark the letters as used by the player', function () {
+        grid.markUnusedLettersUsed
+          .should.have.been.calledWith(line, playerId);
       });
     });
   });
@@ -85,6 +90,11 @@ describe('Game', function () {
 
       it('should not award any points', function () {
         scoreboard.awardPoints
+          .should.not.have.been.called;
+      });
+
+      it('should not mark any letters', function () {
+        grid.markUnusedLettersUsed
           .should.not.have.been.called;
       });
     });

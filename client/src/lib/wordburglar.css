@@ -10,15 +10,59 @@ td.letter {
 }
 
 td.letter:hover {
-    color: #ccc;
+    font-weight: bolder;
     text-decoration: none;
-    background: #333
 }
 
 td.startOfLine {
-    background: #ffa07a;
+    background: #000;
+    color: #f6f6f6
 }
 
-td.usedInAWord {
+span.ownedByPlayer_1 {
     background: #90ee90;
+}
+
+td.ownedByPlayer_1 {
+    background: #90ee90;
+}
+
+td.ownedByPlayer_2 {
+    background: #ee9090;
+}
+
+span.ownedByPlayer_2 {
+    background: #ee9090;
+}
+
+td.ownedByPlayer_3 {
+    background: #9090ee;
+}
+
+span.ownedByPlayer_3 {
+    background: #9090ee;
+}
+
+td.ownedByPlayer_4 {
+    background: #ee90ee;
+}
+
+span.ownedByPlayer_4 {
+    background: #ee90ee;
+}
+
+td.ownedByPlayer_5 {
+    background: #90eeee;
+}
+
+span.ownedByPlayer_5 {
+    background: #90eeee;
+}
+
+td.ownedByPlayer_6 {
+    background: #eeee90;
+}
+
+span.ownedByPlayer_6 {
+    background: #eeee90;
 }
