@@ -1,5 +1,4 @@
 define(['underscore',
-        'socket.io',
         'backbone'
        ], function (_, io, backbone) {
 
