@@ -2,6 +2,7 @@ var util = require("util");
 var events = require("events");
 var _ = require('underscore');
 var shoe = require('shoe');
+var es = require('event-stream');
 
 function monitorConnectionState(socket, emitter) {
   socket.on('connect', function () {
@@ -46,8 +47,26 @@ util.inherits(ServerProxy, events.EventEmitter);
 ServerProxy.prototype.connect = function () {
   var self = this;
 
+  function stringify(msg) {
+    return JSON.stringify(msg) + '\n';
+  }
+
+  function sendToServer(message) {
+    self.socket.write(stringify(message));
+  }
+
   this.socket = shoe('/live');
   monitorConnectionState(this.socket, self);
+
+  this.socket.on('connect', function () {
+    self.socket.pipe(es.split()).pipe(es.parse()).on('data', function (obj) {
+      console.log('client received', obj);
+      self.emit(obj.event, obj.data);
+    });
+
+    console.log('identifying with token', playerToken);
+    sendToServer(playerToken);
+  });
 
   this.socket.on('score', function (data) {
     self.emit('score', data);
