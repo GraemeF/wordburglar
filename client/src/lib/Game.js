@@ -10,11 +10,11 @@ Game.prototype.start = function () {
     self.ui.setScore(scoreChange);
   });
 
-  this.serverProxy.on('addPlayer', function (id) {
+  this.serverProxy.on('playerConnected', function (id) {
     self.ui.addPlayer(id);
   });
 
-  this.serverProxy.on('removePlayer', function (id) {
+  this.serverProxy.on('playerDisconnected', function (id) {
     self.ui.removePlayer(id);
   });
 

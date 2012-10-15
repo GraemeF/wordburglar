@@ -53,7 +53,7 @@ define(['lib/Game',
 
     describe('when the server sends an added player', function () {
       beforeEach(function () {
-        serverProxy.trigger('addPlayer', 'player id');
+        serverProxy.trigger('playerAdded', 'player id');
       });
 
       it('should add the player to the UI', function () {
@@ -63,7 +63,7 @@ define(['lib/Game',
 
     describe('when the server sends a removed player', function () {
       beforeEach(function () {
-        serverProxy.trigger('removePlayer', 'player id');
+        serverProxy.trigger('playerRemoved', 'player id');
       });
 
       it('should remove the player from the UI', function () {

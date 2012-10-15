@@ -47,14 +47,6 @@ util.inherits(ServerProxy, events.EventEmitter);
 ServerProxy.prototype.connect = function () {
   var self = this;
 
-  function stringify(msg) {
-    return JSON.stringify(msg) + '\n';
-  }
-
-  function sendToServer(message) {
-    self.socket.write(stringify(message));
-  }
-
   this.socket = shoe('/live');
   monitorConnectionState(this.socket, self);
 
@@ -64,8 +56,9 @@ ServerProxy.prototype.connect = function () {
       self.emit(obj.event, obj.data);
     });
 
+    /*global playerToken: true*/
     console.log('identifying with token', playerToken);
-    sendToServer(playerToken);
+    self.sendToServer('identify', playerToken);
   });
 
   this.socket.on('score', function (data) {
@@ -89,16 +82,27 @@ ServerProxy.prototype.connect = function () {
   });
 };
 
+function stringify(msg) {
+  return JSON.stringify(msg) + '\n';
+}
+
+ServerProxy.prototype.sendToServer = function (event, data) {
+  this.socket.write(stringify({
+    event: event,
+    data: data
+  }));
+};
+
 ServerProxy.prototype.disconnect = function () {
   this.socket.socket.disconnectSync();
 };
 
 ServerProxy.prototype.markLine = function (line) {
-  this.socket.emit('mark', line);
+  this.sendToServer('mark', line);
 };
 
 ServerProxy.prototype.setPlayerName = function (newName) {
-  this.socket.emit('setName', newName);
+  this.sendToServer('setName', newName);
 };
 
 module.exports = ServerProxy;
