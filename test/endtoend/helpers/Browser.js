@@ -2,14 +2,24 @@ var Zombie = require('zombie');
 var _ = require('underscore');
 var util = require('util');
 
-var hasClass = function (element, cls) {
-  return (' ' + element.className + ' ').indexOf(' ' + cls + ' ') > -1;
-};
+function findPlayerRows(zombie) {
+  return zombie.queryAll('tr.player');
+}
+
+function findPlayerRowByName(zombie, name) {
+  return _.find(findPlayerRows(zombie), function (row) {
+    return zombie.text('.playerName', row) === name;
+  });
+}
+
+function createLetterSelector(x, y) {
+  return 'table#grid' + '> tbody' + '> tr:nth-child(' + (y + 1) + ')' + '> td:nth-child(' + (x + 1) + ')';
+}
 
 var Browser = function (uri) {
-  this.uri = uri;
-  this.zombie = new Zombie();
-};
+    this.uri = uri;
+    this.zombie = new Zombie();
+  };
 
 Browser.prototype.join = function (callback) {
   var self = this;
@@ -52,18 +62,16 @@ Browser.prototype.clickLetter = function (letterLoc, callback) {
 Browser.prototype.mark = function (line, callback) {
   var self = this;
   self.clickLetter(line.start, function (err) {
-    if (err) {
+    if(err) {
       callback(err);
-    }
-    else {
+    } else {
       self.clickLetter(line.end, callback);
     }
   });
 };
 
 Browser.prototype.setPlayerName = function (name, callback) {
-  this.zombie.fill('playerName', name)
-    .pressButton('submitName', callback);
+  this.zombie.fill('playerName', name).pressButton('submitName', callback);
 };
 
 Browser.prototype.getLetter = function (x, y) {
@@ -72,8 +80,7 @@ Browser.prototype.getLetter = function (x, y) {
 
 Browser.prototype.getPlayerOwningLetter = function (letterLoc) {
   const prefix = 'ownedByPlayer_';
-  var letter = this.zombie.query(createLetterSelector(letterLoc.x,
-                                                      letterLoc.y));
+  var letter = this.zombie.query(createLetterSelector(letterLoc.x, letterLoc.y));
 
   var cls = _.find(letter.className.split(' '), function (c) {
     return c.indexOf(prefix) === 0;
@@ -84,7 +91,7 @@ Browser.prototype.getPlayerOwningLetter = function (letterLoc) {
 
 Browser.prototype.getScore = function (context) {
   var text = this.zombie.text('span.score', context);
-  if (text === '') {
+  if(text === '') {
     throw new Error('Could not find a score in ' + context.outerHTML);
   }
 
@@ -93,10 +100,9 @@ Browser.prototype.getScore = function (context) {
 
 Browser.prototype.getPlayerScore = function (name) {
   var row = findPlayerRowByName(this.zombie, name);
-  if (row) {
+  if(row) {
     return this.getScore(row);
-  }
-  else {
+  } else {
     throw new Error('Could not find row for player "' + name + '" in ' + util.inspect(this.getPlayerNames()));
   }
 };
@@ -120,26 +126,8 @@ Browser.prototype.getConnectionStatus = function () {
 Browser.prototype.getTitle = function () {
   return this.zombie.text('title');
 };
-
-function findPlayerRowByName(zombie, name) {
-  return _.find(findPlayerRows(zombie), function (row) {
-    return zombie.text('.playerName', row) === name;
-  });
-}
-
-function findPlayerRows(zombie) {
-  return zombie.queryAll('tr.player');
-}
-
 Browser.prototype.getNumberOfPlayers = function () {
   return findPlayerRows(this.zombie).length;
 };
 
 module.exports = Browser;
-
-function createLetterSelector(x, y) {
-  return 'table#grid' +
-    '> tbody' +
-    '> tr:nth-child(' + (y + 1) + ')' +
-    '> td:nth-child(' + (x + 1) + ')';
-}
