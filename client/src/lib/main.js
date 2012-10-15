@@ -1,9 +1,7 @@
 var ServerProxy = require('./ServerProxy');
 var UI = require('./UI');
 var Game = require('./Game');
-var shoe = require('shoe');
 var domready = require('domready');
-var es = require('event-stream');
 
 domready(function () {
   var serverProxy = new ServerProxy();
@@ -11,7 +9,9 @@ domready(function () {
   game.start();
   serverProxy.connect();
 
+  console.log('adding disconnect to window'); /*global window:true*/
   window.disconnect = function () {
+    console.log('client disconnecting');
     serverProxy.disconnect();
   };
 });

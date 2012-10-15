@@ -33,8 +33,8 @@ Browser.prototype.leave = function (callback) {
 };
 
 Browser.prototype.close = function (done) {
+  console.log('asking the client to disconnect');
   this.zombie.evaluate('window.disconnect()');
-
   soon(function () {
     this.getConnectionStatus().should.equal('disconnected');
   }, this, done);
@@ -92,7 +92,7 @@ Browser.prototype.getPlayerOwningLetter = function (letterLoc) {
 Browser.prototype.getScore = function (context) {
   var text = this.zombie.text('span.score', context);
   if(text === '') {
-    throw new Error('Could not find a score in ' + context.outerHTML);
+    throw new Error('Could not find a score in ' + (context || this.zombie.document).outerHTML);
   }
 
   return parseInt(text, 10);

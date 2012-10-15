@@ -21,7 +21,7 @@ function monitorConnectionState(socket, emitter) {
     emitter.emit('connection', 'closed');
   });
 
-  socket.on('disconnect', function () {
+  socket.on('end', function () {
     emitter.emit('connection', 'disconnected');
   });
 
@@ -94,7 +94,8 @@ ServerProxy.prototype.sendToServer = function (event, data) {
 };
 
 ServerProxy.prototype.disconnect = function () {
-  this.socket.socket.disconnectSync();
+  console.log('getting rid of the socket');
+  this.socket.end();
 };
 
 ServerProxy.prototype.markLine = function (line) {
