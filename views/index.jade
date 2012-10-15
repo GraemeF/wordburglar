@@ -41,12 +41,9 @@ html
                   td.letter
                     div.letter #{letter.letter}
 
-    script(src="/assets/require.js")
+    script(src="/client.js")
     script
       playerToken = '#{playerToken}';
-    script
-      require(['main'], function(main) {
-      });
 
     if googleAnalytics
       script

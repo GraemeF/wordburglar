@@ -1,85 +1,85 @@
-define(['underscore',
-        'backbone'
-       ], function (_, io, backbone) {
+var util = require("util");
+var events = require("events");
+var _ = require('underscore');
+var shoe = require('shoe');
 
-  function monitorConnectionState(socket, emitter) {
-    socket.on('connect', function () {
-      emitter.trigger('connection', 'connected');
-    });
+function monitorConnectionState(socket, emitter) {
+  socket.on('connect', function () {
+    emitter.emit('connection', 'connected');
+  });
 
-    socket.on('connecting', function (transport_name) {
-      emitter.trigger('connection', 'connecting with ' + transport_name);
-    });
+  socket.on('connecting', function (transport_name) {
+    emitter.emit('connection', 'connecting with ' + transport_name);
+  });
 
-    socket.on('connect_failed', function () {
-      emitter.trigger('connection', 'connection failed');
-    });
+  socket.on('connect_failed', function () {
+    emitter.emit('connection', 'connection failed');
+  });
 
-    socket.on('close', function () {
-      emitter.trigger('connection', 'closed');
-    });
+  socket.on('close', function () {
+    emitter.emit('connection', 'closed');
+  });
 
-    socket.on('disconnect', function () {
-      emitter.trigger('connection', 'disconnected');
-    });
+  socket.on('disconnect', function () {
+    emitter.emit('connection', 'disconnected');
+  });
 
-    socket.on('reconnect', function (transport_type, reconnectionAttempts) {
-      emitter.trigger('connection', 'reconnected with ' + transport_type + ' after ' + reconnectionAttempts + ' attempts');
-    });
+  socket.on('reconnect', function (transport_type, reconnectionAttempts) {
+    emitter.emit('connection', 'reconnected with ' + transport_type + ' after ' + reconnectionAttempts + ' attempts');
+  });
 
-    socket.on('reconnecting', function (reconnectionDelay, reconnectionAttempts) {
-      emitter.trigger('connection', 'reconnecting (' + reconnectionAttempts + ' attempts)');
-    });
+  socket.on('reconnecting', function (reconnectionDelay, reconnectionAttempts) {
+    emitter.emit('connection', 'reconnecting (' + reconnectionAttempts + ' attempts)');
+  });
 
-    socket.on('reconnect_failed', function () {
-      emitter.trigger('connection', 'reconnect failed');
-    });
-  }
+  socket.on('reconnect_failed', function () {
+    emitter.emit('connection', 'reconnect failed');
+  });
+}
 
-  var ServerProxy = function () {
-    _.extend(this, backbone.Events);
+var ServerProxy = function () {
+    events.EventEmitter.call(this);
   };
 
-  ServerProxy.prototype.connect = function () {
-    var self = this;
-    this.socket = io.connect("?playerToken=" + playerToken, {
-      reconnect: false,
-      "sync disconnect on unload": true
-    });
-    monitorConnectionState(this.socket, self);
+util.inherits(ServerProxy, events.EventEmitter);
 
-    this.socket.on('score', function (data) {
-      self.trigger('score', data);
-    });
+ServerProxy.prototype.connect = function () {
+  var self = this;
 
-    this.socket.on('letterUsed', function (data) {
-      self.trigger('letterUsed', data);
-    });
+  this.socket = shoe('/live');
+  monitorConnectionState(this.socket, self);
 
-    this.socket.on('nameChanged', function (data) {
-      self.trigger('nameChanged', data);
-    });
+  this.socket.on('score', function (data) {
+    self.emit('score', data);
+  });
 
-    this.socket.on('playerConnected', function (data) {
-      self.trigger('addPlayer', data);
-    });
+  this.socket.on('letterUsed', function (data) {
+    self.emit('letterUsed', data);
+  });
 
-    this.socket.on('playerDisconnected', function (data) {
-      self.trigger('removePlayer', data);
-    });
-  };
+  this.socket.on('nameChanged', function (data) {
+    self.emit('nameChanged', data);
+  });
 
-  ServerProxy.prototype.disconnect = function () {
-    this.socket.socket.disconnectSync();
-  };
+  this.socket.on('playerConnected', function (data) {
+    self.emit('addPlayer', data);
+  });
 
-  ServerProxy.prototype.markLine = function (line) {
-    this.socket.emit('mark', line);
-  };
+  this.socket.on('playerDisconnected', function (data) {
+    self.emit('removePlayer', data);
+  });
+};
 
-  ServerProxy.prototype.setPlayerName = function (newName) {
-    this.socket.emit('setName', newName);
-  };
+ServerProxy.prototype.disconnect = function () {
+  this.socket.socket.disconnectSync();
+};
 
-  return ServerProxy;
-});
+ServerProxy.prototype.markLine = function (line) {
+  this.socket.emit('mark', line);
+};
+
+ServerProxy.prototype.setPlayerName = function (newName) {
+  this.socket.emit('setName', newName);
+};
+
+module.exports = ServerProxy;
