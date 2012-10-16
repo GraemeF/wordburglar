@@ -91,11 +91,19 @@ ServerProxy.prototype.connect = function () {
   });
 
   self.eventsFromServer.on('playerConnected', function (data) {
-    self.emit('addPlayer', data);
+    self.emit('playerConnected', data);
   });
 
   self.eventsFromServer.on('playerDisconnected', function (data) {
-    self.emit('removePlayer', data);
+    self.emit('playerDisconnected', data);
+  });
+  
+  self.eventsFromServer.on('playerAdded', function (data) {
+    self.emit('playerAdded', data);
+  });
+
+  self.eventsFromServer.on('playerRemoved', function (data) {
+    self.emit('playerRemoved', data);
   });
 
   this.socket.on('log', function (severity, message) {

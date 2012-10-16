@@ -18,6 +18,14 @@ Game.prototype.start = function () {
     self.ui.removePlayer(id);
   });
 
+  this.serverProxy.on('playerAdded', function (id) {
+    self.ui.addPlayer(id);
+  });
+
+  this.serverProxy.on('playerRemoved', function (id) {
+    self.ui.removePlayer(id);
+  });
+
   this.serverProxy.on('nameChanged', function (newName) {
     self.ui.setPlayerName(newName);
   });
