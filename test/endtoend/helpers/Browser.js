@@ -92,7 +92,7 @@ Browser.prototype.getPlayerOwningLetter = function (letterLoc) {
 Browser.prototype.getScore = function (context) {
   var text = this.zombie.text('span.score', context);
   if(text === '') {
-    throw new Error('Could not find a score in ' + (context || this.zombie.document).outerHTML);
+    throw new Error('Could not find a score');
   }
 
   return parseInt(text, 10);

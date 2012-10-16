@@ -76,7 +76,6 @@ ServerProxy.prototype.connect = function () {
   self.eventsFromServer = createEmitterToReceiveFromStream(this.socket);
 
   /*global playerToken: true*/
-  console.log('identifying with token', playerToken);
   self.eventsToServer.emit('identify', playerToken);
 
   self.eventsFromServer.on('score', function (data) {
