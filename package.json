@@ -37,9 +37,9 @@
     "shoe": "~0.0.7",
     "browserify": "~1.16.1",
     "domready": "~0.2.11",
-    "event-stream": "~3.0.7",
     "emit-stream": "~0.1.0",
-    "JSONStream": "~0.4.2"
+    "JSONStream": "~0.4.2",
+    "through": "~1.1.1"
   },
   "subdomain": "wordburglar",
   "engines": {

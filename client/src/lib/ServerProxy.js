@@ -3,7 +3,7 @@ var events = require("events");
 var _ = require('underscore');
 var shoe = require('shoe');
 var emitStream = require('emit-stream');
-var eventStream = require('event-stream');
+var through = require('through');
 var JSONStream = require('JSONStream');
 
 function monitorConnectionState(socket, emitter) {
@@ -47,26 +47,24 @@ var ServerProxy = function () {
 util.inherits(ServerProxy, events.EventEmitter);
 
 function createEmitterToSendToStream(stream) {
-  var emitter = new events.EventEmitter();
-
-  var logToServer = eventStream.through(function write(data) {
-    console.log('sending to server:', data);
+  var logToServer = through(function write(data) {
+    console.log('sending:', data);
     this.emit('data', data);
   });
-  emitStream(emitter).pipe(JSONStream.stringify()).pipe(logToServer).pipe(stream);
+  var emitter = new events.EventEmitter();
+  emitStream.toStream(emitter).pipe(JSONStream.stringify()).pipe(logToServer).pipe(stream);
   return emitter;
 }
 
 function createEmitterToReceiveFromStream(stream) {
-  var parser = JSONStream.parse([true]);
-  var logToPlayer = eventStream.through(function write(data) {
-    console.log('receiving from server:', data);
+  var logToPlayer = through(function write(data) {
+    console.log('receiving:', data);
     this.emit('data', data);
   });
 
-  var parsedStream = parser.pipe(stream.pipe(logToPlayer)).pipe(parser);
-  return emitStream(parsedStream);
-
+  var parser = JSONStream.parse([true]);
+  var parsedStream = stream.pipe(logToPlayer).pipe(parser);
+  return emitStream.fromStream(parsedStream);
 }
 
 ServerProxy.prototype.connect = function () {
