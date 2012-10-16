@@ -46,50 +46,61 @@ var ServerProxy = function () {
 
 util.inherits(ServerProxy, events.EventEmitter);
 
+function createEmitterToSendToStream(stream) {
+  var emitter = new events.EventEmitter();
+
+  var logToServer = eventStream.through(function write(data) {
+    console.log('sending to server:', data);
+    this.emit('data', data);
+  });
+  emitStream(emitter).pipe(JSONStream.stringify()).pipe(logToServer).pipe(stream);
+  return emitter;
+}
+
+function createEmitterToReceiveFromStream(stream) {
+  var parser = JSONStream.parse([true]);
+  var logToPlayer = eventStream.through(function write(data) {
+    console.log('receiving from server:', data);
+    this.emit('data', data);
+  });
+
+  var parsedStream = parser.pipe(stream.pipe(logToPlayer)).pipe(parser);
+  return emitStream(parsedStream);
+
+}
+
 ServerProxy.prototype.connect = function () {
   var self = this;
 
-  this.socket = shoe('/live', function () { /*global playerToken: true*/
-    console.log('identifying with token', playerToken);
-    self.eventsToServer = new events.EventEmitter();
+  this.socket = shoe('/live');
 
-    var logToServer = eventStream.through(function write(data) {
-      console.log('sending to server:', data);
-      this.emit('data', data);
-    });
-    emitStream(self.eventsToServer).pipe(JSONStream.stringify()).pipe(logToServer).pipe(self.socket);
+  self.eventsToServer = createEmitterToSendToStream(this.socket);
+  self.eventsFromServer = createEmitterToReceiveFromStream(this.socket);
 
-    self.eventsToServer.emit('identify', playerToken);
+  /*global playerToken: true*/
+  console.log('identifying with token', playerToken);
+  self.eventsToServer.emit('identify', playerToken);
 
-    var parser = JSONStream.parse([true]);
-    var logToPlayer = eventStream.through(function write(data) {
-      console.log('receiving from server:', data);
-      this.emit('data', data);
-    });
-
-    var parsedStream = parser.pipe(self.socket.pipe(logToPlayer)).pipe(parser);
-    self.eventsFromServer = emitStream(parsedStream);
-
-    self.eventsFromServer.on('score', function (data) {
-      self.emit('score', data);
-    });
-
-    self.eventsFromServer.on('letterUsed', function (data) {
-      self.emit('letterUsed', data);
-    });
-
-    self.eventsFromServer.on('nameChanged', function (data) {
-      self.emit('nameChanged', data);
-    });
-
-    self.eventsFromServer.on('playerConnected', function (data) {
-      self.emit('addPlayer', data);
-    });
-
-    self.eventsFromServer.on('playerDisconnected', function (data) {
-      self.emit('removePlayer', data);
-    });
+  self.eventsFromServer.on('score', function (data) {
+    self.emit('score', data);
   });
+
+  self.eventsFromServer.on('letterUsed', function (data) {
+    self.emit('letterUsed', data);
+  });
+
+  self.eventsFromServer.on('nameChanged', function (data) {
+    self.emit('nameChanged', data);
+  });
+
+  self.eventsFromServer.on('playerConnected', function (data) {
+    self.emit('addPlayer', data);
+  });
+
+  self.eventsFromServer.on('playerDisconnected', function (data) {
+    self.emit('removePlayer', data);
+  });
+
   this.socket.on('log', function (severity, message) {
     console.log(severity, message);
   });
