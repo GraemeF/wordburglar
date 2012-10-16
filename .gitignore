@@ -16,6 +16,7 @@ npm-debug.log
 
 jam
 public
+/client.js
 
 .coverage_data
 cover_html
