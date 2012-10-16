@@ -26,8 +26,7 @@
     "sinon-chai": "~2.1.2",
     "zombie": "~2.0.0",
     "jshint": "~0.9.0",
-    "cover": "~0.2.8",
-    "browserify": "~1.16.1"
+    "cover": "~0.2.8"
   },
   "dependencies": {
     "nconf": "~0.6.4",
@@ -38,7 +37,9 @@
     "shoe": "~0.0.7",
     "browserify": "~1.16.1",
     "domready": "~0.2.11",
-    "event-stream": "~3.0.7"
+    "event-stream": "~3.0.7",
+    "emit-stream": "~0.1.0",
+    "JSONStream": "~0.4.2"
   },
   "subdomain": "wordburglar",
   "engines": {
