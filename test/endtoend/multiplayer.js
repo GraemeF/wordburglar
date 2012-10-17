@@ -1,6 +1,6 @@
 var TestGameServer = require('./helpers/TestGameServer');
 
-describe('Multiplayer', function () {
+describe.skip('Multiplayer', function () {
   var server;
 
   beforeEach(function (done) {

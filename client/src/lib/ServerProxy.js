@@ -6,40 +6,6 @@ var emitStream = require('emit-stream');
 var through = require('through');
 var JSONStream = require('JSONStream');
 
-function monitorConnectionState(socket, emitter) {
-  socket.on('connect', function () {
-    emitter.emit('connection', 'connected');
-  });
-
-  socket.on('connecting', function (transport_name) {
-    emitter.emit('connection', 'connecting with ' + transport_name);
-  });
-
-  socket.on('connect_failed', function () {
-    emitter.emit('connection', 'connection failed');
-  });
-
-  socket.on('close', function () {
-    emitter.emit('connection', 'closed');
-  });
-
-  socket.on('end', function () {
-    emitter.emit('connection', 'disconnected');
-  });
-
-  socket.on('reconnect', function (transport_type, reconnectionAttempts) {
-    emitter.emit('connection', 'reconnected with ' + transport_type + ' after ' + reconnectionAttempts + ' attempts');
-  });
-
-  socket.on('reconnecting', function (reconnectionDelay, reconnectionAttempts) {
-    emitter.emit('connection', 'reconnecting (' + reconnectionAttempts + ' attempts)');
-  });
-
-  socket.on('reconnect_failed', function () {
-    emitter.emit('connection', 'reconnect failed');
-  });
-}
-
 var ServerProxy = function () {
     events.EventEmitter.call(this);
   };
@@ -47,7 +13,7 @@ var ServerProxy = function () {
 util.inherits(ServerProxy, events.EventEmitter);
 
 function createEmitterToSendToStream(stream) {
-  var logToServer = through(function write(data) {
+  var logToServer = through(function writeToStream(data) {
     console.log('sending:', data);
     this.emit('data', data);
   });
@@ -57,8 +23,8 @@ function createEmitterToSendToStream(stream) {
 }
 
 function createEmitterToReceiveFromStream(stream) {
-  var logToPlayer = through(function write(data) {
-    console.log('receiving:', data);
+  var logToPlayer = through(function writeFromStream(data) {
+    console.error('receiving:', data);
     this.emit('data', data);
   });
 
@@ -92,12 +58,13 @@ ServerProxy.prototype.connect = function () {
 
   self.eventsFromServer.on('playerConnected', function (data) {
     self.emit('playerConnected', data);
+    self.emit('connection', 'connected');
   });
 
   self.eventsFromServer.on('playerDisconnected', function (data) {
     self.emit('playerDisconnected', data);
   });
-  
+
   self.eventsFromServer.on('playerAdded', function (data) {
     self.emit('playerAdded', data);
   });
@@ -109,10 +76,14 @@ ServerProxy.prototype.connect = function () {
   this.socket.on('log', function (severity, message) {
     console.log(severity, message);
   });
-  monitorConnectionState(this.socket, self);
+
+  this.socket.on('close', function () {
+    self.emit('connection', 'disconnected');
+  });
 };
 
 ServerProxy.prototype.sendToServer = function (event, data) {
+  console.log('client sending to server:', event);
   this.eventsToServer.emit(event, data);
 };
 

@@ -31,6 +31,7 @@ TestGameServer.prototype.uri = function () {
 };
 
 TestGameServer.prototype.createPlayer = function () {
+  console.log('creating new player');
   return new Browser(this.uri());
 };
 

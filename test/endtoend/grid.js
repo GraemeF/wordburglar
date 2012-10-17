@@ -1,6 +1,6 @@
 var TestGameServer = require('./helpers/TestGameServer');
 
-describe('Grid', function () {
+describe.skip('Grid', function () {
   var server;
 
   beforeEach(function (done) {
