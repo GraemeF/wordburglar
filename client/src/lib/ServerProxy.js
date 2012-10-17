@@ -24,7 +24,6 @@ function createEmitterToSendToStream(stream) {
 
 function createEmitterToReceiveFromStream(stream) {
   var logToPlayer = through(function writeFromStream(data) {
-    console.error('receiving:', data);
     this.emit('data', data);
   });
 

@@ -9,9 +9,7 @@ domready(function () {
   game.start();
   serverProxy.connect();
 
-  console.log('adding disconnect to window'); /*global window:true*/
   window.disconnect = function () {
-    console.log('client disconnecting');
     serverProxy.disconnect();
   };
 });
