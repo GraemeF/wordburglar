@@ -18,12 +18,15 @@ function createLetterSelector(x, y) {
 
 var Browser = function (uri) {
     this.uri = uri;
-    this.zombie = new Zombie();
+    this.zombie = new Zombie({
+      debug: true
+    });
   };
 
 Browser.prototype.join = function (callback) {
   var self = this;
   this.navigateHome(function () {
+    console.log('waiting for connection');
     self.waitUntilConnected(callback);
   });
 };
@@ -33,19 +36,22 @@ Browser.prototype.leave = function (callback) {
 };
 
 Browser.prototype.close = function (done) {
+  console.log('asking the client to disconnect');
   this.zombie.evaluate('window.disconnect()');
-
   soon(function () {
+    console.log('waiting for connection to be disconnected');
     this.getConnectionStatus().should.equal('disconnected');
   }, this, done);
 };
 
 Browser.prototype.navigateHome = function (callback) {
+  console.log('navigation to home');
   this.zombie.visit(this.uri, {}, callback);
 };
 
 Browser.prototype.waitUntilConnected = function (callback) {
   soon(function () {
+    console.log('checking connection');
     this.getConnectionStatus().should.equal('connected');
   }, this, callback);
 };
@@ -71,6 +77,7 @@ Browser.prototype.mark = function (line, callback) {
 };
 
 Browser.prototype.setPlayerName = function (name, callback) {
+  console.log('setting name to', name);
   this.zombie.fill('playerName', name).pressButton('submitName', callback);
 };
 
@@ -92,7 +99,7 @@ Browser.prototype.getPlayerOwningLetter = function (letterLoc) {
 Browser.prototype.getScore = function (context) {
   var text = this.zombie.text('span.score', context);
   if(text === '') {
-    throw new Error('Could not find a score in ' + context.outerHTML);
+    throw new Error('Could not find a score');
   }
 
   return parseInt(text, 10);

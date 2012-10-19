@@ -2,9 +2,7 @@
 html
   head
     title= title
-    link(rel='stylesheet', href='/assets/bootstrap/css/bootstrap.min.css')
-    link(rel='stylesheet',
-    href='/assets/bootstrap/css/bootstrap-responsive.min.css')
+    link(rel='stylesheet', href='//netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap-combined.min.css')
     link(rel='stylesheet',
     href='/wordburglar.css')
   body
@@ -41,12 +39,9 @@ html
                   td.letter
                     div.letter #{letter.letter}
 
-    script(src="/assets/require.js")
+    script(src="/client.js")
     script
       playerToken = '#{playerToken}';
-    script
-      require(['main'], function(main) {
-      });
 
     if googleAnalytics
       script

@@ -1,6 +1,6 @@
 var TestGameServer = require('./helpers/TestGameServer');
 
-describe('Grid', function () {
+describe.skip('Grid', function () {
   var server;
 
   beforeEach(function (done) {
@@ -31,8 +31,10 @@ describe('Grid', function () {
       });
     });
 
-    it('should show my score is 0', function () {
-      player.getScore().should.equal(0);
+    it('should show my score is 0', function (done) {
+      soon(function () {
+        player.getScore().should.equal(0);
+      }, this, done);
     });
 
     describe('I mark ABC', function () {
