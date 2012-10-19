@@ -39,7 +39,8 @@
     "domready": "~0.2.11",
     "emit-stream": "~0.1.0",
     "JSONStream": "~0.4.2",
-    "through": "~1.1.1"
+    "through": "~1.1.1",
+    "replify": "~1.0.0"
   },
   "subdomain": "wordburglar",
   "engines": {
