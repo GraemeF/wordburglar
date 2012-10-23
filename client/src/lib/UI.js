@@ -36,6 +36,10 @@ var UI = function () {
 
 util.inherits(UI, events.EventEmitter);
 
+function getPlayerRowId(id) {
+  return "player_" + id;
+}
+
 UI.prototype.setScore = function (details) {
   $('#' + getPlayerRowId(details.id) + ' > td > span.score').text(details.points);
 };
@@ -63,16 +67,11 @@ function createLetterSelector(x, y) {
 }
 
 UI.prototype.setLetterUsed = function (usage) {
-  console.log('letter used:', usage);
   $(createLetterSelector(usage.location.x, usage.location.y)).addClass('ownedByPlayer_' + usage.player).addClass('usedInAWord');
 };
 
 UI.prototype.setConnectionStatus = function (newStatus) {
   $('#connection').text(newStatus);
 };
-
-function getPlayerRowId(id) {
-  return "player_" + id;
-}
 
 module.exports = UI;

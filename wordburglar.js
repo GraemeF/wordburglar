@@ -9,3 +9,6 @@ var server = serverFactory(serverConfig);
 server.start(function () {
   console.log('Listening on', server.uri());
 });
+
+var replify = require('replify');
+replify('wb', server);

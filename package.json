@@ -38,9 +38,10 @@
     "browserify": "~1.16.1",
     "domready": "~0.2.11",
     "emit-stream": "~0.1.0",
-    "JSONStream": "~0.4.2",
+    "JSONStream": "git://github.com/GraemeF/JSONStream.git#detect-buffer",
     "through": "~1.1.1",
-    "replify": "~1.0.0"
+    "replify": "~1.0.0",
+    "jquery-browserify": "~1.8.1"
   },
   "subdomain": "wordburglar",
   "engines": {

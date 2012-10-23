@@ -14,7 +14,6 @@ util.inherits(ServerProxy, events.EventEmitter);
 
 function createEmitterToSendToStream(stream) {
   var logToServer = through(function writeToStream(data) {
-    console.log('sending:', data);
     this.emit('data', data);
   });
   var emitter = new events.EventEmitter();
@@ -73,7 +72,7 @@ ServerProxy.prototype.connect = function () {
   });
 
   this.socket.on('log', function (severity, message) {
-    console.log(severity, message);
+    //console.log(severity, message);
   });
 
   this.socket.on('close', function () {
@@ -82,13 +81,11 @@ ServerProxy.prototype.connect = function () {
 };
 
 ServerProxy.prototype.sendToServer = function (event, data) {
-  console.log('client sending to server:', event);
   this.eventsToServer.emit(event, data);
 };
 
 ServerProxy.prototype.disconnect = function () {
-  console.log('getting rid of the socket');
-  this.socket.end();
+  this.socket.destroy();
 };
 
 ServerProxy.prototype.markLine = function (line) {

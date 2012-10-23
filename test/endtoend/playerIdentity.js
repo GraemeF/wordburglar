@@ -1,6 +1,6 @@
 var TestGameServer = require('./helpers/TestGameServer');
 
-describe.skip('Player identity', function () {
+describe('Player identity', function () {
   var server;
 
   beforeEach(function (done) {
