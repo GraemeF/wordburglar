@@ -1,6 +1,7 @@
 language: node_js
 node_js:
   - 0.8
+before_script: node_modules/browserify/bin/cmd.js --entry client/src/lib/main.js -o public/client.js
 notifications:
   webhooks: 
     urls:
