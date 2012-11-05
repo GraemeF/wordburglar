@@ -42,7 +42,8 @@
     "replify": "~1.0.0",
     "jquery-browserify": "~1.8.1",
     "jspit": "0.0.1",
-    "jsuck": "0.0.1"
+    "jsuck": "0.0.1",
+    "fast-list": "~1.0.2"
   },
   "subdomain": "wordburglar",
   "engines": {
