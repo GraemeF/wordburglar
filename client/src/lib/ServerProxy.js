@@ -4,7 +4,8 @@ var _ = require('underscore');
 var shoe = require('shoe');
 var emitStream = require('emit-stream');
 var through = require('through');
-var JSONStream = require('JSONStream');
+var jspit = require('jspit');
+var jsuck = require('jsuck');
 
 var ServerProxy = function () {
     events.EventEmitter.call(this);
@@ -17,7 +18,7 @@ function createEmitterToSendToStream(stream) {
     this.emit('data', data);
   });
   var emitter = new events.EventEmitter();
-  emitStream.toStream(emitter).pipe(JSONStream.stringify()).pipe(logToServer).pipe(stream);
+  emitStream.toStream(emitter).pipe(new jspit('\n')).pipe(logToServer).pipe(stream);
   return emitter;
 }
 
@@ -26,7 +27,7 @@ function createEmitterToReceiveFromStream(stream) {
     this.emit('data', data);
   });
 
-  var parser = JSONStream.parse([true]);
+  var parser = new jsuck();
   var parsedStream = stream.pipe(logToPlayer).pipe(parser);
   return emitStream.fromStream(parsedStream);
 }
