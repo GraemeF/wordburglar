@@ -54,8 +54,8 @@ Browser.prototype.wait = function (callback) {
 };
 
 Browser.prototype.clickLetter = function (letterLoc, callback) {
-  var letter = this.zombie.query(createLetterSelector(letterLoc.x, letterLoc.y));
-  this.zombie.fire('click', letter, callback);
+  this.zombie.click(createLetterSelector(letterLoc.x, letterLoc.y));
+  process.nextTick(callback);
 };
 
 Browser.prototype.mark = function (line, callback) {
