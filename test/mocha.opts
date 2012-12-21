@@ -1,2 +1,1 @@
---ignore-leaks --timeout 3000 --require test/common ./test/unit
-./test/endtoend
+--ignore-leaks --timeout 3000 

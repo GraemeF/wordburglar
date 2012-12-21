@@ -6,7 +6,7 @@
   "scripts": {
     "pretest": "node node_modules/browserify/bin/cmd.js --entry client/src/lib/main.js -o public/client.js",
     "start": "node ./wordburglar.js",
-    "test": "node ./node_modules/mocha/bin/mocha",
+    "test": "node ./node_modules/mocha/bin/mocha --require test/common.js test/unit/*.js test/endtoend/*.js",
     "lint": "node ./node_modules/jshint/bin/hint ./lib ./test/unit ./test/endtoend ./test/endtoend/helpers --show-non-errors",
     "cover": "node ./node_modules/cover/bin/cover run node_modules/mocha/bin/_mocha && node ./node_modules/cover/bin/cover report html"
   },
@@ -27,7 +27,8 @@
     "sinon-chai": "~2.3.0",
     "zombie": "2.0.0-alpha11",
     "jshint": "~0.9.0",
-    "cover": "~0.2.8"
+    "cover": "~0.2.8",
+    "backbone": "~0.9.9"
   },
   "dependencies": {
     "nconf": "~0.6.4",
