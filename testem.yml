@@ -7,12 +7,12 @@
     ],
     "launchers": {
         "Node": {
-            "command": "mocha browserified.js -R tap",
+            "command": "node node_modules/mocha/bin/mocha browserified.js -R tap",
             "protocol": "tap"
         }
     },
     "before_tests": "node node_modules/browserify/bin/cmd.js --entry client/src/spec/Game.js -o browserified.js",
     "on_exit": "rm browserified.js",
     "launch_in_ci": [ "node", "phantomjs" ],
-    "launch_in_dev": [ "chrome", "node", "phantomjs", "firefox", "safari" ]
+    "launch_in_dev": [ "ie7", "ie8", "ie9", "chrome", "node", "phantomjs", "firefox", "safari" ]
 }
