@@ -1,15 +1,9 @@
 {
-  "framework": "mocha",
-  "serve_files": ["browserified.js"],
+  "framework": "jasmine",
+  "serve_files": ["client/src/spec/jasmine-fixture.js", "browserified.js"],
   "src_files": ["client/src/lib/**/*.js", "client/src/spec/**/*.js"],
-  "launchers": {
-    "Node": {
-      "command": "node node_modules/mocha/bin/mocha browserified.js -R tap",
-      "protocol": "tap"
-    }
-  },
   "before_tests": "node node_modules/browserify/bin/cmd.js --entry client/src/spec/specs.js -o browserified.js",
   "on_exit": "rm browserified.js",
   "launch_in_ci": ["node", "phantomjs"],
-  "launch_in_dev": ["ie7", "ie8", "ie9", "chrome", "node", "phantomjs", "firefox", "safari"]
+  "launch_in_dev": ["ie7", "ie8", "ie9", "chrome", "phantomjs", "firefox", "safari"]
 }
