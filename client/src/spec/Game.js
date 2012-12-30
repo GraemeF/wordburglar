@@ -1,9 +1,6 @@
 var sinon = require("sinon");
 var chai = require("chai");
-var should = require("chai").should();
-var expect = require("chai").expect;
-var AssertionError = require("chai").AssertionError;
-var soon = require('patience').soon;
+require("chai").should();
 var sinonChai = require("sinon-chai");
 chai.use(sinonChai);
 

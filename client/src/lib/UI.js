@@ -1,7 +1,6 @@
 var util = require("util");
 var events = require("events");
 var $ = require('jquery-browserify');
-var _ = require('underscore');
 
 function getCoords(element) {
   return {
@@ -10,14 +9,14 @@ function getCoords(element) {
   };
 }
 
-var UI = function () {
+var UI = function() {
     var self = this;
     events.EventEmitter.call(this);
 
-    $('td.letter').click(function (event) {
+    $('td.letter').click(function(event) {
       var $clicked = $(event.target).closest('td');
       var $start = $('td.startOfLine');
-      if($start.length > 0) {
+      if ($start.length > 0) {
         self.emit('mark', {
           start: getCoords($start),
           end: getCoords($clicked)
@@ -28,7 +27,7 @@ var UI = function () {
       }
     });
 
-    $('form#nameForm').submit(function () {
+    $('form#nameForm').submit(function() {
       self.emit('setName', $('form#nameForm > input').val());
       return false;
     });
@@ -40,25 +39,25 @@ function getPlayerRowId(id) {
   return "player_" + id;
 }
 
-UI.prototype.setScore = function (details) {
+UI.prototype.setScore = function(details) {
   $('#' + getPlayerRowId(details.id) + ' > td > span.score').text(details.points);
 };
 
-UI.prototype.setPlayerName = function (details) {
+UI.prototype.setPlayerName = function(details) {
   $('#' + getPlayerRowId(details.id) + ' > .playerName').text(details.name);
 };
 
-UI.prototype.addPlayer = function (id) {
+UI.prototype.addPlayer = function(id) {
   var existingPlayer = $('#' + getPlayerRowId(id));
 
-  if(existingPlayer.length > 0) {
+  if (existingPlayer.length > 0) {
     existingPlayer.show();
   } else {
     $('#players').append($('<tr id="' + getPlayerRowId(id) + '" class="player">' + '<td class="playerName">Anonymous</td>' + '<td><span class="score ownedByPlayer_' + id + '">0</span></td></tr>'));
   }
 };
 
-UI.prototype.removePlayer = function (id) {
+UI.prototype.removePlayer = function(id) {
   $('#' + getPlayerRowId(id)).hide();
 };
 
@@ -66,11 +65,11 @@ function createLetterSelector(x, y) {
   return 'table#grid' + '> tbody' + '> tr:nth-child(' + (y + 1) + ')' + '> td:nth-child(' + (x + 1) + ')';
 }
 
-UI.prototype.setLetterUsed = function (usage) {
+UI.prototype.setLetterUsed = function(usage) {
   $(createLetterSelector(usage.location.x, usage.location.y)).addClass('ownedByPlayer_' + usage.player).addClass('usedInAWord');
 };
 
-UI.prototype.setConnectionStatus = function (newStatus) {
+UI.prototype.setConnectionStatus = function(newStatus) {
   $('#connection').text(newStatus);
 };
 

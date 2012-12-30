@@ -1,21 +1,13 @@
-var sinon = require("sinon");
-var chai = require("chai");
-var should = require("chai").should();
-var expect = require("chai").expect;
-var AssertionError = require("chai").AssertionError;
-var soon = require('patience').soon;
-var sinonChai = require("sinon-chai");
-chai.use(sinonChai);
+/*global jasmineFixture:true, affix:true, $:true */
 
-var _ = require('underscore');
-var backbone = require('backbone');
-var sinon = require('sinon');
-require('./jasmine-fixture');
+require("chai").should();
+require('../vendor/jasmine-fixture');
+
 var UI = require('../lib/UI');
 
 describe('UI', function() {
   beforeEach(function() {
-    jasmineFixture($)
+    jasmineFixture($);
   });
 
   describe('with a name form', function() {
