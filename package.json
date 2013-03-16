@@ -20,36 +20,36 @@
   "author": "Graeme Foster <graemef@gmail.com>",
   "private": true,
   "devDependencies": {
-    "mocha": "~1.7.4",
-    "sinon": "~1.5.0",
-    "chai": "~1.4.0",
     "patience": "~0.2.0",
     "sinon-chai": "~2.3.0",
-    "zombie": "2.0.0-alpha11",
-    "jshint": "~0.9.0",
+    "zombie": "~1.4.1",
     "cover": "~0.2.8",
     "backbone": "~0.9.9",
-    "testem": "~0.2.50"
+    "mocha": "~1.8.2",
+    "chai": "~1.5.0",
+    "sinon": "~1.6.0",
+    "testem": "~0.2.76",
+    "jshint": "~1.1.0",
+    "browserify": "~2.6.1"
   },
   "dependencies": {
     "nconf": "~0.6.4",
-    "express": "~3.0.0",
-    "jade": "~0.27.2",
     "underscore": "~1.4.0",
     "node-uuid": "~1.4.0",
     "shoe": "~0.0.7",
-    "browserify": "~1.16.1",
     "domready": "~0.2.11",
     "emit-stream": "~0.1.0",
     "replify": "~1.0.0",
     "jquery-browserify": "~1.8.1",
-    "jspit": "0.0.1",
-    "jsuck": "0.0.1",
     "fast-list": "~1.0.2",
-    "through": "~2.1.0"
+    "jspit": "0.0.3",
+    "through": "~2.2.7",
+    "jsuck": "0.0.3",
+    "jade": "~0.28.2",
+    "express": "~3.1.0"
   },
   "subdomain": "wordburglar",
   "engines": {
-    "node": "0.8.x"
+    "node": "0.10.x"
   }
 }
