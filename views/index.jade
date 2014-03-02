@@ -2,9 +2,8 @@
 html
   head
     title= title
-    link(rel='stylesheet', href='/assets/bootstrap/css/bootstrap.min.css')
-    link(rel='stylesheet',
-    href='/assets/bootstrap/css/bootstrap-responsive.min.css')
+    link(rel='stylesheet', href='//netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap-combined.min.css')
+    link(rel='stylesheet', href='/wordburglar.css')
   body
 
     .navbar.navbar-fixed-top
@@ -15,8 +14,20 @@ html
     .container
       .row
         .hero-unit
-          p Score:&nbsp;
-            span#score 0
+          form.form-inline#nameForm
+            input(name="playerName",
+              placeholder="Your Name",
+              required)
+            button.btn(name="submitName",
+              type="submit") OK
+          table#scoreboard
+            tbody#players
+              tr
+                th Player
+                th Score
+
+          p Connection:&nbsp;
+            span#connection initialising
 
       .row
         table#grid
@@ -24,6 +35,16 @@ html
             each row in grid.rows
               tr
                 each letter in row
-                  td #{letter}
+                  td.letter
+                    div.letter #{letter.letter}
 
-    script(src="/assets/require.js")
+    script(src="/client.js")
+    script
+      playerToken = '#{playerToken}';
+
+    if googleAnalytics
+      script
+        var _gaq=[['_setAccount','UA-1814201-3'],['_trackPageview']];
+        (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+        g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+        s.parentNode.insertBefore(g,s)}(document,'script'));
